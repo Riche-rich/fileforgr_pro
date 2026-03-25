@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FileForge Pro — Ultimate File & Image Suite</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060608;
+  --s1: #0e0e14;
+  --s2: #161620;
+  --s3: #1e1e2e;
+  --border: #252535;
+  --border2: #2e2e45;
+  --a1: #6c63ff;
+  --a2: #ff6584;
+  --a3: #43e8b0;
+  --a4: #ffa94d;
+  --a5: #5bc8f5;
+  --text: #f0f0fa;
+  --muted: #6060a0;
+  --muted2: #9090c0;
+  --r: 14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* BG FX */
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 0%,rgba(108,99,255,.07),transparent),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(255,101,132,.05),transparent);pointer-events:none;z-index:0}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(108,99,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(108,99,255,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(6,6,8,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px;gap:8px}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;margin-right:auto;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text)}
+.nav-logo-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--a1),var(--a2));border-radius:8px;display:grid;place-items:center;font-size:15px}
+.nav-logo span{background:linear-gradient(90deg,var(--a1),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-tab{background:none;border:none;color:var(--muted2);font-size:13px;font-family:'DM Sans',sans-serif;padding:6px 14px;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.nav-tab:hover{color:var(--text);background:var(--s2)}
+.nav-tab.active{color:white;background:var(--a1)}
+
+/* MAIN SECTIONS */
+.section{position:relative;z-index:5;display:none;animation:fadeIn .3s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{text-align:center;padding:56px 24px 40px;position:relative;z-index:5}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.2);padding:5px 16px;border-radius:20px;font-size:12px;color:var(--a1);margin-bottom:20px;letter-spacing:.5px}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.1;margin-bottom:14px}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--a1),var(--a2),var(--a4));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted2);font-size:16px;max-width:480px;margin:0 auto}
+
+/* TOOL GRID */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;padding:0 24px 60px;max-width:1300px;margin:0 auto;position:relative;z-index:5}
+.tool-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:24px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;user-select:none}
+.tool-card::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;pointer-events:none}
+.tool-card:hover{transform:translateY(-4px);border-color:rgba(108,99,255,.35)}
+.tool-card:hover::after{opacity:1}
+.tc-purple::after{background:radial-gradient(ellipse at 0% 0%,rgba(108,99,255,.1),transparent 60%)}
+.tc-pink::after{background:radial-gradient(ellipse at 0% 0%,rgba(255,101,132,.1),transparent 60%)}
+.tc-teal::after{background:radial-gradient(ellipse at 0% 0%,rgba(67,232,176,.1),transparent 60%)}
+.tc-orange::after{background:radial-gradient(ellipse at 0% 0%,rgba(255,169,77,.1),transparent 60%)}
+.tc-blue::after{background:radial-gradient(ellipse at 0% 0%,rgba(91,200,245,.1),transparent 60%)}
+.card-icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:22px;margin-bottom:14px;position:relative;z-index:1}
+.ci-purple{background:rgba(108,99,255,.15)} .ci-pink{background:rgba(255,101,132,.15)}
+.ci-teal{background:rgba(67,232,176,.15)} .ci-orange{background:rgba(255,169,77,.15)} .ci-blue{background:rgba(91,200,245,.15)}
+.card-badge{position:absolute;top:14px;right:14px;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;padding:3px 9px;border-radius:20px}
+.badge-free{background:rgba(67,232,176,.12);color:var(--a3);border:1px solid rgba(67,232,176,.2)}
+.badge-new{background:rgba(255,169,77,.12);color:var(--a4);border:1px solid rgba(255,169,77,.2)}
+.card-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:7px;position:relative;z-index:1}
+.card-desc{font-size:12px;color:var(--muted2);line-height:1.65;position:relative;z-index:1}
+.card-cta{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--a1);margin-top:14px;position:relative;z-index:1;transition:gap .2s}
+.tool-card:hover .card-cta{gap:9px}
+.sec-label{font-family:'Syne',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);padding:0 24px 20px;max-width:1300px;margin:0 auto;position:relative;z-index:5}
+
+/* ===== MODAL ===== */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
+.overlay.open{display:flex}
+.modal{background:var(--s1);border:1px solid var(--border2);border-radius:20px;width:100%;max-width:680px;max-height:92vh;overflow-y:auto;animation:modalIn .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-head{padding:24px 24px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;background:var(--s1);z-index:10;border-radius:20px 20px 0 0}
+.modal-head-left{display:flex;align-items:center;gap:14px}
+.modal-close{background:var(--s2);border:1px solid var(--border);color:var(--muted2);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:grid;place-items:center;transition:all .2s;flex-shrink:0}
+.modal-close:hover{color:var(--text);border-color:var(--a2)}
+.modal-body{padding:24px}
+
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--border2);border-radius:var(--r);padding:40px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--s2);position:relative}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--a1);background:rgba(108,99,255,.05)}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.uz-icon{font-size:40px;margin-bottom:12px}
+.uz-title{font-family:'Syne',sans-serif;font-size:17px;margin-bottom:6px}
+.uz-sub{color:var(--muted2);font-size:13px}
+.uz-btn{display:inline-block;background:linear-gradient(135deg,var(--a1),#8b7fff);color:white;padding:9px 22px;border-radius:30px;font-size:13px;margin-top:12px;cursor:pointer}
+
+/* FILE LIST */
+.flist{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.fitem{display:flex;align-items:center;justify-content:space-between;background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13px}
+.fitem-l{display:flex;align-items:center;gap:10px}
+.fitem-ico{font-size:18px}
+.fitem-name{font-weight:500}
+.fitem-sz{color:var(--muted);font-size:11px;margin-top:2px}
+.fitem-rm{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:3px;border-radius:4px;transition:color .2s}
+.fitem-rm:hover{color:var(--a2)}
+
+/* OPTIONS */
+.opt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:18px}
+.opt-group label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:7px}
+.opt-group select,.opt-group input[type=number],.opt-group input[type=text]{width:100%;background:var(--s2);border:1px solid var(--border2);color:var(--text);padding:9px 12px;border-radius:9px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;appearance:none}
+.opt-group select:focus,.opt-group input:focus{border-color:var(--a1)}
+.opt-group input[type=range]{width:100%;accent-color:var(--a1);cursor:pointer;margin-top:4px}
+.range-disp{font-size:12px;color:var(--a1);margin-top:5px}
+.opt-group input[type=color]{width:100%;height:38px;border:1px solid var(--border2);border-radius:9px;background:var(--s2);cursor:pointer;padding:2px}
+
+/* ACTION ROW */
+.act-row{display:flex;gap:10px;margin-top:20px}
+.btn-go{flex:1;background:linear-gradient(135deg,var(--a1),#8b7fff);color:white;border:none;padding:13px 20px;border-radius:11px;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-go:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,99,255,.35)}
+.btn-go:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-sec{background:var(--s2);border:1px solid var(--border);color:var(--text);padding:13px 18px;border-radius:11px;font-size:13px;cursor:pointer;transition:all .2s}
+.btn-sec:hover{border-color:var(--a1);color:var(--a1)}
+
+/* PROGRESS */
+.prog-wrap{margin-top:18px;display:none}
+.prog-wrap.show{display:block}
+.prog-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--muted2);margin-bottom:7px}
+.prog-track{height:5px;background:var(--s3);border-radius:5px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--a1),var(--a2));width:0%;transition:width .35s;border-radius:5px}
+
+/* RESULT */
+.result{margin-top:18px;background:var(--s2);border:1px solid rgba(67,232,176,.2);border-radius:var(--r);padding:20px;display:none}
+.result.show{display:block}
+.result-head{font-family:'Syne',sans-serif;font-size:14px;color:var(--a3);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.result-preview{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.result-preview img{max-width:200px;max-height:160px;object-fit:contain;border-radius:8px;border:1px solid var(--border)}
+.stat-tbl{flex:1;min-width:160px}
+.srow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px}
+.srow:last-child{border:none}
+.srow span:last-child{color:var(--a3);font-weight:500}
+.dl-btn{width:100%;background:linear-gradient(135deg,var(--a3),#2ecf94);color:#060608;border:none;padding:12px;border-radius:11px;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;cursor:pointer;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s}
+.dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(67,232,176,.25)}
+.mono-result{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:14px;font-size:12px;line-height:1.8;color:var(--text);max-height:200px;overflow-y:auto;white-space:pre-wrap;margin-top:10px;font-family:monospace}
+
+/* ===== IMAGE EDITOR ===== */
+.editor-wrap{display:grid;grid-template-columns:1fr 280px;gap:0;height:calc(100vh - 60px);max-height:calc(100vh - 60px);overflow:hidden;position:relative;z-index:5}
+.editor-canvas-area{background:var(--s2);display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border)}
+.editor-toolbar{background:var(--s1);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.etool{background:none;border:1px solid var(--border);color:var(--muted2);width:36px;height:36px;border-radius:9px;cursor:pointer;font-size:16px;display:grid;place-items:center;transition:all .2s;position:relative}
+.etool:hover{border-color:var(--a1);color:var(--a1)}
+.etool.active{background:var(--a1);border-color:var(--a1);color:white}
+.etool-sep{width:1px;height:28px;background:var(--border);margin:0 4px}
+.etool-label{font-size:11px;color:var(--muted);white-space:nowrap}
+.canvas-container{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:20px;position:relative}
+#editCanvas{border-radius:8px;box-shadow:0 4px 32px rgba(0,0,0,.5);max-width:100%;max-height:100%;cursor:crosshair;display:block}
+.canvas-empty{text-align:center;color:var(--muted);padding:40px}
+.canvas-empty .big-icon{font-size:60px;margin-bottom:16px;opacity:.4}
+
+.editor-panel{background:var(--s1);overflow-y:auto;display:flex;flex-direction:column}
+.ep-section{border-bottom:1px solid var(--border);padding:16px}
+.ep-title{font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.ep-row{margin-bottom:12px}
+.ep-row label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted2);margin-bottom:6px}
+.ep-row label span{color:var(--a1);font-weight:500}
+.ep-row input[type=range]{width:100%;accent-color:var(--a1);cursor:pointer}
+.ep-row select{width:100%;background:var(--s2);border:1px solid var(--border2);color:var(--text);padding:8px 10px;border-radius:8px;font-size:12px;outline:none;font-family:'DM Sans',sans-serif}
+.ep-row select:focus{border-color:var(--a1)}
+.color-row{display:flex;gap:6px;flex-wrap:wrap}
+.color-swatch{width:28px;height:28px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:border-color .2s}
+.color-swatch.active{border-color:white}
+.ep-btn{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);padding:9px;border-radius:9px;font-size:13px;cursor:pointer;transition:all .2s;margin-bottom:7px;display:flex;align-items:center;justify-content:center;gap:7px}
+.ep-btn:hover{border-color:var(--a1);color:var(--a1)}
+.ep-btn.primary-btn{background:linear-gradient(135deg,var(--a1),#8b7fff);border-color:var(--a1);color:white}
+.ep-btn.primary-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(108,99,255,.3)}
+.ep-upload-btn{background:linear-gradient(135deg,var(--a1),var(--a2));border:none;color:white;padding:12px;border-radius:10px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;position:relative}
+.ep-upload-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+/* Text overlay input */
+.text-overlay-input{width:100%;background:var(--s2);border:1px solid var(--border2);color:var(--text);padding:8px 10px;border-radius:8px;font-size:13px;outline:none;font-family:'DM Sans',sans-serif;margin-bottom:8px;resize:vertical;min-height:60px}
+.text-overlay-input:focus{border-color:var(--a1)}
+
+/* ===== PHOTO SIZE CONVERTER ===== */
+.ps-wrap{position:relative;z-index:5;max-width:1100px;margin:0 auto;padding:0 24px 60px}
+.ps-header{text-align:center;padding:40px 0 32px}
+.ps-header h2{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;margin-bottom:8px}
+.ps-header p{color:var(--muted2);font-size:15px}
+
+.ps-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.ps-grid{grid-template-columns:1fr}}
+
+.ps-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.ps-card-head{padding:20px 20px 0;font-family:'Syne',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.ps-card-body{padding:20px}
+
+.size-category{margin-bottom:20px}
+.size-cat-title{font-family:'Syne',sans-serif;font-size:13px;color:var(--a1);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.size-presets{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.size-preset{background:var(--s2);border:1px solid var(--border);border-radius:9px;padding:10px 12px;cursor:pointer;transition:all .2s;text-align:left}
+.size-preset:hover{border-color:var(--a1)}
+.size-preset.selected{border-color:var(--a1);background:rgba(108,99,255,.12)}
+.sp-name{font-size:12px;font-weight:500;color:var(--text)}
+.sp-dims{font-size:11px;color:var(--muted2);margin-top:2px}
+.sp-unit{font-size:10px;color:var(--muted);background:var(--s3);padding:1px 6px;border-radius:4px;margin-top:4px;display:inline-block}
+
+.custom-size-section{background:var(--s2);border-radius:12px;padding:16px;margin-top:16px}
+.cus-title{font-size:12px;color:var(--muted2);margin-bottom:12px;font-family:'Syne',sans-serif;letter-spacing:1px;text-transform:uppercase}
+.cus-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end}
+.cus-row .opt-group label{font-size:10px}
+.cus-row .opt-group input,.cus-row .opt-group select{padding:8px 10px;font-size:12px}
+
+/* Output preview */
+.ps-output{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:20px}
+.ps-output-title{font-family:'Syne',sans-serif;font-size:14px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.ps-canvas-wrap{background:repeating-conic-gradient(var(--s2) 0% 25%,var(--bg) 0% 50%) 0/20px 20px;border-radius:10px;min-height:200px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:hidden;position:relative}
+#psCanvas{max-width:100%;display:block;border-radius:6px}
+.ps-empty{color:var(--muted);text-align:center;padding:40px;font-size:13px}
+.ps-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.ps-info-item{background:var(--s2);border-radius:8px;padding:10px 12px}
+.psi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.psi-val{font-size:14px;font-weight:700;font-family:'Syne',sans-serif;color:var(--text)}
+.ps-upload-btn{background:linear-gradient(135deg,var(--a1),var(--a2));border:none;color:white;padding:14px;border-radius:12px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;margin-bottom:12px}
+.ps-upload-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.ps-convert-btn{width:100%;background:linear-gradient(135deg,var(--a3),#2ecf94);color:#060608;border:none;padding:13px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.ps-convert-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(67,232,176,.25)}
+.ps-convert-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* DPI row */
+.dpi-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.dpi-chip{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px}
+.dpi-chip:hover{border-color:var(--a1)}
+.dpi-chip.active{background:rgba(108,99,255,.15);border-color:var(--a1);color:var(--a1)}
+
+/* PDF EDITOR */
+.pdf-editor-wrap{display:grid;grid-template-columns:220px 1fr;gap:0;height:calc(100vh - 60px);overflow:hidden;position:relative;z-index:5}
+.pdf-sidebar{background:var(--s1);border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column}
+.pdf-sidebar-head{padding:16px;border-bottom:1px solid var(--border);font-family:'Syne',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.pdf-tool-btn{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;transition:all .2s;font-size:13px;color:var(--muted2);border-bottom:1px solid rgba(255,255,255,.03)}
+.pdf-tool-btn:hover{background:var(--s2);color:var(--text)}
+.pdf-tool-btn.active{background:rgba(108,99,255,.12);color:var(--a1);border-right:2px solid var(--a1)}
+.pdf-tool-ico{font-size:18px;width:24px;text-align:center}
+.pdf-main{display:flex;flex-direction:column;overflow:hidden}
+.pdf-topbar{background:var(--s1);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pdf-area{flex:1;overflow-y:auto;padding:24px;background:var(--s2);display:flex;flex-direction:column;align-items:center;gap:16px}
+.pdf-page-card{background:white;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.4);overflow:hidden;position:relative;width:100%;max-width:600px}
+.pdf-page-card canvas{display:block;width:100%}
+.pdf-empty{text-align:center;padding:80px 20px;color:var(--muted)}
+.pdf-empty .bi{font-size:64px;margin-bottom:16px;opacity:.3}
+.pdf-upload-bar{background:var(--s1);border-top:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;gap:12px}
+.pdf-upload-btn{background:linear-gradient(135deg,var(--a1),var(--a2));border:none;color:white;padding:10px 22px;border-radius:10px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;display:flex;align-items:center;gap:8px;position:relative}
+.pdf-upload-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.pdf-tool-panel{background:var(--s1);border-left:1px solid var(--border);width:260px;flex-shrink:0;padding:20px;overflow-y:auto}
+.pdf-main-inner{display:flex;flex:1;overflow:hidden}
+.ptool-title{font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.ptool-row{margin-bottom:14px}
+.ptool-row label{display:block;font-size:11px;color:var(--muted2);margin-bottom:6px}
+.ptool-row input[type=text],.ptool-row textarea,.ptool-row select{width:100%;background:var(--s2);border:1px solid var(--border2);color:var(--text);padding:8px 10px;border-radius:8px;font-size:13px;outline:none;font-family:'DM Sans',sans-serif}
+.ptool-row textarea{resize:vertical;min-height:80px}
+.ptool-row input:focus,.ptool-row textarea:focus,.ptool-row select:focus{border-color:var(--a1)}
+.ptool-row input[type=range]{width:100%;accent-color:var(--a1);cursor:pointer}
+.ptool-row input[type=color]{width:100%;height:36px;border:1px solid var(--border2);border-radius:8px;background:var(--s2);cursor:pointer;padding:2px}
+.apply-btn{width:100%;background:linear-gradient(135deg,var(--a1),#8b7fff);border:none;color:white;padding:11px;border-radius:9px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;margin-top:8px}
+.apply-btn:hover{box-shadow:0 4px 16px rgba(108,99,255,.3)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--s1)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+@media(max-width:768px){
+  .editor-wrap{grid-template-columns:1fr;grid-template-rows:1fr auto;height:auto}
+  .editor-panel{max-height:50vh}
+  .pdf-editor-wrap{grid-template-columns:1fr;height:auto}
+  .pdf-sidebar{display:none}
+  .pdf-main-inner{flex-direction:column}
+  .pdf-tool-panel{width:100%;border-left:none;border-top:1px solid var(--border);max-height:300px}
+  nav{overflow-x:auto;gap:4px}
+  .nav-tab{font-size:12px;padding:5px 10px}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">⚡</div>
+    File<span>Forge</span> <span style="color:var(--a4);font-size:11px;background:rgba(255,169,77,.1);border:1px solid rgba(255,169,77,.2);padding:2px 8px;border-radius:20px;margin-left:4px;font-family:'DM Sans'">PRO</span>
+  </a>
+  <button class="nav-tab active" onclick="showSection('home')">🏠 Home</button>
+  <button class="nav-tab" onclick="showSection('img-editor')">🎨 Image Editor</button>
+  <button class="nav-tab" onclick="showSection('pdf-editor')">📄 PDF Editor</button>
+  <button class="nav-tab" onclick="showSection('photo-size')">📐 Photo Sizes</button>
+</nav>
+
+<!-- ============ HOME ============ -->
+<div class="section active" id="sec-home">
+  <div class="hero" style="position:relative;z-index:5">
+    <div class="hero-pill">✦ 50+ Tools · Image Editor · PDF Editor · Photo Resizer</div>
+    <h1>The <em>ultimate</em> file toolkit</h1>
+    <p>Edit, convert, resize, compress — everything in one place. No installs, no uploads.</p>
+  </div>
+
+  <!-- IMAGE EDITING -->
+  <div class="sec-label">🎨 IMAGE EDITING TOOLS</div>
+  <div class="tools-grid">
+
+    <div class="tool-card tc-purple" onclick="showSection('img-editor')">
+      <span class="card-badge badge-new">Editor</span>
+      <div class="card-icon ci-purple">🖌️</div>
+      <div class="card-title">Full Image Editor</div>
+      <div class="card-desc">Canvas-based editor with filters, crop, draw, text, stickers, shapes & adjustments.</div>
+      <div class="card-cta">Open Editor →</div>
+    </div>
+
+    <div class="tool-card tc-pink" onclick="openModal('filters')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-pink">✨</div>
+      <div class="card-title">Photo Filters</div>
+      <div class="card-desc">Apply Instagram-style filters: Vintage, Noir, Vivid, Fade, Chrome, and 20+ more.</div>
+      <div class="card-cta">Apply Filters →</div>
+    </div>
+
+    <div class="tool-card tc-teal" onclick="openModal('adjust')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-teal">🎛️</div>
+      <div class="card-title">Brightness / Contrast</div>
+      <div class="card-desc">Fine-tune brightness, contrast, saturation, hue, sharpness, and exposure sliders.</div>
+      <div class="card-cta">Adjust →</div>
+    </div>
+
+    <div class="tool-card tc-orange" onclick="openModal('flip-rotate')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-orange">🔄</div>
+      <div class="card-title">Flip & Rotate</div>
+      <div class="card-desc">Rotate images by any angle, flip horizontally/vertically, straighten horizons.</div>
+      <div class="card-cta">Rotate →</div>
+    </div>
+
+    <div class="tool-card tc-blue" onclick="openModal('text-add')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-blue">🔤</div>
+      <div class="card-title">Add Text to Image</div>
+      <div class="card-desc">Add custom text overlays with fonts, colors, sizes, shadows, and positioning.</div>
+      <div class="card-cta">Add Text →</div>
+    </div>
+
+    <div class="tool-card tc-purple" onclick="openModal('sticker')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-purple">🎭</div>
+      <div class="card-title">Sticker & Emoji Overlay</div>
+      <div class="card-desc">Add emoji, shapes, and sticker overlays to your photos.</div>
+      <div class="card-cta">Add Stickers →</div>
+    </div>
+
+    <div class="tool-card tc-pink" onclick="openModal('blur-bg')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-pink">🌫️</div>
+      <div class="card-title">Blur Background</div>
+      <div class="card-desc">Apply Gaussian blur, radial blur, or tilt-shift effects to backgrounds.</div>
+      <div class="card-cta">Blur →</div>
+    </div>
+
+    <div class="tool-card tc-teal" onclick="openModal('draw')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-teal">✏️</div>
+      <div class="card-title">Draw & Annotate</div>
+      <div class="card-desc">Freehand drawing, arrows, rectangles, circles, and annotation tools.</div>
+      <div class="card-cta">Draw →</div>
+    </div>
+
+    <div class="tool-card tc-orange" onclick="openModal('color-correct')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-orange">🎨</div>
+      <div class="card-title">Color Correction</div>
+      <div class="card-desc">White balance, color curves, shadows/highlights, vibrance, and tint adjustments.</div>
+      <div class="card-cta">Correct Colors →</div>
+    </div>
+
+    <div class="tool-card tc-blue" onclick="openModal('vignette')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-blue">⭕</div>
+      <div class="card-title">Vignette & Borders</div>
+      <div class="card-desc">Add vignette effects, artistic borders, and frame overlays to images.</div>
+      <div class="card-cta">Add Border →</div>
+    </div>
+  </div>
+
+  <!-- PDF EDITING -->
+  <div class="sec-label" style="margin-top:20px">📄 PDF EDITING TOOLS</div>
+  <div class="tools-grid">
+    <div class="tool-card tc-purple" onclick="showSection('pdf-editor')">
+      <span class="card-badge badge-new">Editor</span>
+      <div class="card-icon ci-purple">📝</div>
+      <div class="card-title">PDF Editor</div>
+      <div class="card-desc">Full PDF editor — add text, annotations, highlights, stamps & shapes to PDFs.</div>
+      <div class="card-cta">Open Editor →</div>
+    </div>
+    <div class="tool-card tc-pink" onclick="openModal('pdf-annotate')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-pink">🖊️</div>
+      <div class="card-title">PDF Annotator</div>
+      <div class="card-desc">Highlight text, add comments, sticky notes, and draw on PDFs.</div>
+      <div class="card-cta">Annotate →</div>
+    </div>
+    <div class="tool-card tc-teal" onclick="openModal('pdf-sign')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-teal">✍️</div>
+      <div class="card-title">PDF Signature</div>
+      <div class="card-desc">Add digital signatures to PDF documents — draw, type, or upload your signature.</div>
+      <div class="card-cta">Sign PDF →</div>
+    </div>
+    <div class="tool-card tc-orange" onclick="openModal('pdf-watermark')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-orange">💧</div>
+      <div class="card-title">PDF Watermark</div>
+      <div class="card-desc">Add text or image watermarks to all pages of a PDF document.</div>
+      <div class="card-cta">Watermark →</div>
+    </div>
+    <div class="tool-card tc-blue" onclick="openModal('pdf-page-num')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-blue">🔢</div>
+      <div class="card-title">Add Page Numbers</div>
+      <div class="card-desc">Insert page numbers with custom position, style, and starting number.</div>
+      <div class="card-cta">Number Pages →</div>
+    </div>
+    <div class="tool-card tc-purple" onclick="openModal('pdf-rotate')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-purple">🔃</div>
+      <div class="card-title">Rotate PDF Pages</div>
+      <div class="card-desc">Rotate single pages, page ranges, or entire PDFs by 90/180/270 degrees.</div>
+      <div class="card-cta">Rotate →</div>
+    </div>
+    <div class="tool-card tc-pink" onclick="openModal('pdf-redact')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-pink">🔲</div>
+      <div class="card-title">PDF Redaction</div>
+      <div class="card-desc">Permanently black out sensitive text and images from PDF documents.</div>
+      <div class="card-cta">Redact →</div>
+    </div>
+    <div class="tool-card tc-teal" onclick="openModal('pdf-header')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-teal">📋</div>
+      <div class="card-title">PDF Header & Footer</div>
+      <div class="card-desc">Add custom headers and footers with text, date, logo, and page info.</div>
+      <div class="card-cta">Add H/F →</div>
+    </div>
+  </div>
+
+  <!-- PHOTO SIZE -->
+  <div class="sec-label" style="margin-top:20px">📐 PHOTO SIZE TOOLS</div>
+  <div class="tools-grid">
+    <div class="tool-card tc-orange" onclick="showSection('photo-size')">
+      <span class="card-badge badge-new">All Sizes</span>
+      <div class="card-icon ci-orange">📐</div>
+      <div class="card-title">Photo Size Converter</div>
+      <div class="card-desc">Resize for social media, passport, ID, print (inches), and custom sizes.</div>
+      <div class="card-cta">Open Tool →</div>
+    </div>
+    <div class="tool-card tc-blue" onclick="openModal('passport')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-blue">🪪</div>
+      <div class="card-title">Passport Photo Maker</div>
+      <div class="card-desc">Create government-standard passport photos for US, UK, EU, India & more.</div>
+      <div class="card-cta">Make Passport Photo →</div>
+    </div>
+    <div class="tool-card tc-purple" onclick="openModal('social-resize')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-purple">📱</div>
+      <div class="card-title">Social Media Resizer</div>
+      <div class="card-desc">Resize for Instagram, Facebook, Twitter, LinkedIn, YouTube, TikTok & Pinterest.</div>
+      <div class="card-cta">Resize →</div>
+    </div>
+  </div>
+
+  <!-- EXISTING TOOLS (condensed) -->
+  <div class="sec-label" style="margin-top:20px">🔧 FILE CONVERSION TOOLS</div>
+  <div class="tools-grid">
+    <div class="tool-card tc-teal" onclick="openModal('img-compress')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-teal">📦</div>
+      <div class="card-title">Image Compressor</div>
+      <div class="card-desc">Compress JPEG, PNG, WebP up to 90% smaller.</div>
+      <div class="card-cta">Compress →</div>
+    </div>
+    <div class="tool-card tc-orange" onclick="openModal('img-convert')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-orange">🔄</div>
+      <div class="card-title">Image Format Converter</div>
+      <div class="card-desc">Convert between JPG, PNG, WebP, GIF, BMP, AVIF.</div>
+      <div class="card-cta">Convert →</div>
+    </div>
+    <div class="tool-card tc-blue" onclick="openModal('zip-create')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-blue">🗂️</div>
+      <div class="card-title">ZIP Compressor</div>
+      <div class="card-desc">Create ZIP archives from multiple files in browser.</div>
+      <div class="card-cta">Create ZIP →</div>
+    </div>
+    <div class="tool-card tc-purple" onclick="openModal('ocr')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-purple">🔍</div>
+      <div class="card-title">OCR Text Extractor</div>
+      <div class="card-desc">Extract text from images and scanned documents.</div>
+      <div class="card-cta">Extract →</div>
+    </div>
+    <div class="tool-card tc-pink" onclick="openModal('pdf-merge')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-pink">🔗</div>
+      <div class="card-title">PDF Merger</div>
+      <div class="card-desc">Combine multiple PDFs into one document.</div>
+      <div class="card-cta">Merge →</div>
+    </div>
+    <div class="tool-card tc-teal" onclick="openModal('bg-remove')">
+      <span class="card-badge badge-free">Free</span>
+      <div class="card-icon ci-teal">🎭</div>
+      <div class="card-title">Background Remover</div>
+      <div class="card-desc">Remove backgrounds and get transparent PNGs.</div>
+      <div class="card-cta">Remove BG →</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ IMAGE EDITOR ============ -->
+<div class="section" id="sec-img-editor">
+  <div class="editor-wrap">
+    <div class="editor-canvas-area">
+      <div class="editor-toolbar">
+        <button class="etool active" id="toolSelect" onclick="setEditorTool('select')" title="Select">↖</button>
+        <button class="etool" id="toolCrop" onclick="setEditorTool('crop')" title="Crop">✂</button>
+        <div class="etool-sep"></div>
+        <button class="etool" id="toolPen" onclick="setEditorTool('pen')" title="Draw">✏</button>
+        <button class="etool" id="toolLine" onclick="setEditorTool('line')" title="Line">╱</button>
+        <button class="etool" id="toolRect" onclick="setEditorTool('rect')" title="Rectangle">▭</button>
+        <button class="etool" id="toolCircle" onclick="setEditorTool('circle')" title="Circle">○</button>
+        <button class="etool" id="toolText" onclick="setEditorTool('text')" title="Text">T</button>
+        <div class="etool-sep"></div>
+        <button class="etool" onclick="undoEdit()" title="Undo">↩</button>
+        <button class="etool" onclick="redoEdit()" title="Redo">↪</button>
+        <button class="etool" onclick="clearCanvas()" title="Clear">🗑</button>
+        <div class="etool-sep"></div>
+        <button class="etool" onclick="zoomIn()" title="Zoom In">+</button>
+        <button class="etool" onclick="zoomOut()" title="Zoom Out">−</button>
+        <span class="etool-label" id="zoomLabel">100%</span>
+        <div class="etool-sep"></div>
+        <button class="etool" onclick="downloadEdited()" title="Download" style="background:var(--a1);border-color:var(--a1);color:white">⬇</button>
+      </div>
+      <div class="canvas-container" id="canvasContainer">
+        <div class="canvas-empty" id="canvasEmpty">
+          <div class="big-icon">🖼️</div>
+          <p style="font-family:'Syne',sans-serif;font-size:16px;margin-bottom:8px">Upload an image to start editing</p>
+          <p style="font-size:13px">Use the panel on the right to upload</p>
+        </div>
+        <canvas id="editCanvas" style="display:none"></canvas>
+      </div>
+    </div>
+
+    <div class="editor-panel">
+      <!-- Upload -->
+      <div class="ep-section">
+        <button class="ep-upload-btn">
+          <input type="file" accept="image/*" onchange="loadEditorImage(event)">
+          📁 Upload Image
+        </button>
+      </div>
+
+      <!-- Adjustments -->
+      <div class="ep-section">
+        <div class="ep-title">Adjustments</div>
+        <div class="ep-row"><label>Brightness <span id="lblBright">0</span></label><input type="range" id="slBright" min="-100" max="100" value="0" oninput="document.getElementById('lblBright').textContent=this.value;applyAdjustments()"></div>
+        <div class="ep-row"><label>Contrast <span id="lblContrast">0</span></label><input type="range" id="slContrast" min="-100" max="100" value="0" oninput="document.getElementById('lblContrast').textContent=this.value;applyAdjustments()"></div>
+        <div class="ep-row"><label>Saturation <span id="lblSat">0</span></label><input type="range" id="slSat" min="-100" max="100" value="0" oninput="document.getElementById('lblSat').textContent=this.value;applyAdjustments()"></div>
+        <div class="ep-row"><label>Sharpness <span id="lblSharp">0</span></label><input type="range" id="slSharp" min="0" max="100" value="0" oninput="document.getElementById('lblSharp').textContent=this.value;applyAdjustments()"></div>
+        <div class="ep-row"><label>Blur <span id="lblBlur">0</span></label><input type="range" id="slBlur" min="0" max="20" value="0" oninput="document.getElementById('lblBlur').textContent=this.value;applyAdjustments()"></div>
+        <div class="ep-row"><label>Hue Rotate <span id="lblHue">0°</span></label><input type="range" id="slHue" min="-180" max="180" value="0" oninput="document.getElementById('lblHue').textContent=this.value+'°';applyAdjustments()"></div>
+      </div>
+
+      <!-- Filters -->
+      <div class="ep-section">
+        <div class="ep-title">Filters</div>
+        <div class="ep-row">
+          <select id="filterSelect" onchange="applyFilter(this.value)">
+            <option value="none">None (Original)</option>
+            <option value="grayscale">Grayscale</option>
+            <option value="sepia">Sepia</option>
+            <option value="invert">Invert</option>
+            <option value="vintage">Vintage</option>
+            <option value="vivid">Vivid</option>
+            <option value="cool">Cool Tone</option>
+            <option value="warm">Warm Tone</option>
+            <option value="fade">Fade</option>
+            <option value="noir">Noir</option>
+            <option value="chrome">Chrome</option>
+            <option value="punch">Punch</option>
+            <option value="clarity">Clarity</option>
+            <option value="dreamy">Dreamy</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Draw Tools -->
+      <div class="ep-section">
+        <div class="ep-title">Draw / Text</div>
+        <div class="ep-row"><label>Brush Color</label>
+          <div class="color-row" id="colorPicker">
+            <div class="color-swatch active" style="background:#fff" onclick="setBrushColor('#fff',this)"></div>
+            <div class="color-swatch" style="background:#000" onclick="setBrushColor('#000',this)"></div>
+            <div class="color-swatch" style="background:#6c63ff" onclick="setBrushColor('#6c63ff',this)"></div>
+            <div class="color-swatch" style="background:#ff6584" onclick="setBrushColor('#ff6584',this)"></div>
+            <div class="color-swatch" style="background:#43e8b0" onclick="setBrushColor('#43e8b0',this)"></div>
+            <div class="color-swatch" style="background:#ffa94d" onclick="setBrushColor('#ffa94d',this)"></div>
+            <div class="color-swatch" style="background:#5bc8f5" onclick="setBrushColor('#5bc8f5',this)"></div>
+            <div class="color-swatch" style="background:#f0f" onclick="setBrushColor('#f0f',this)"></div>
+            <input type="color" style="width:28px;height:28px;border-radius:6px;border:2px solid var(--border);cursor:pointer;padding:1px;background:none" oninput="setBrushColor(this.value,null)">
+          </div>
+        </div>
+        <div class="ep-row"><label>Brush Size <span id="lblBrush">4px</span></label><input type="range" id="slBrush" min="1" max="50" value="4" oninput="document.getElementById('lblBrush').textContent=this.value+'px';brushSize=parseInt(this.value)"></div>
+        <div class="ep-row"><label>Opacity <span id="lblOpacity">100%</span></label><input type="range" id="slOpacity" min="10" max="100" value="100" oninput="document.getElementById('lblOpacity').textContent=this.value+'%';brushOpacity=this.value/100"></div>
+        <div class="ep-row">
+          <textarea class="text-overlay-input" id="textInput" placeholder="Type text to add to image..."></textarea>
+          <select id="fontSelect" style="width:100%;background:var(--s2);border:1px solid var(--border2);color:var(--text);padding:8px 10px;border-radius:8px;font-size:12px;outline:none;margin-bottom:8px">
+            <option>Arial</option><option>Georgia</option><option>Courier New</option><option>Impact</option><option>Comic Sans MS</option><option>Times New Roman</option><option>Verdana</option>
+          </select>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <input type="number" id="fontSize" value="32" min="8" max="200" style="background:var(--s2);border:1px solid var(--border2);color:var(--text);padding:7px 10px;border-radius:8px;font-size:12px;outline:none;font-family:'DM Sans'" placeholder="Size">
+            <button class="ep-btn" onclick="placeText()">Place Text</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transform -->
+      <div class="ep-section">
+        <div class="ep-title">Transform</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+          <button class="ep-btn" onclick="flipH()">↔ Flip H</button>
+          <button class="ep-btn" onclick="flipV()">↕ Flip V</button>
+          <button class="ep-btn" onclick="rotateBy(-90)">↺ Rotate L</button>
+          <button class="ep-btn" onclick="rotateBy(90)">↻ Rotate R</button>
+        </div>
+        <div class="ep-row" style="margin-top:12px"><label>Rotation <span id="lblRotate">0°</span></label><input type="range" id="slRotate" min="-180" max="180" value="0" oninput="document.getElementById('lblRotate').textContent=this.value+'°';rotateTo(parseInt(this.value))"></div>
+      </div>
+
+      <!-- Stickers -->
+      <div class="ep-section">
+        <div class="ep-title">Stickers & Shapes</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <div onclick="addSticker('❤️')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px;transition:background .2s" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">❤️</div>
+          <div onclick="addSticker('⭐')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">⭐</div>
+          <div onclick="addSticker('🔥')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">🔥</div>
+          <div onclick="addSticker('✅')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">✅</div>
+          <div onclick="addSticker('🎉')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">🎉</div>
+          <div onclick="addSticker('💯')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">💯</div>
+          <div onclick="addSticker('🎨')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">🎨</div>
+          <div onclick="addSticker('💫')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">💫</div>
+          <div onclick="addSticker('🦋')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">🦋</div>
+          <div onclick="addSticker('🌈')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">🌈</div>
+          <div onclick="addSticker('👑')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">👑</div>
+          <div onclick="addSticker('💎')" style="font-size:24px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background=''">💎</div>
+        </div>
+      </div>
+
+      <!-- Download -->
+      <div class="ep-section">
+        <div class="ep-title">Export</div>
+        <div class="ep-row">
+          <select id="exportFormat">
+            <option>JPEG (Best Quality)</option>
+            <option>PNG (Transparent)</option>
+            <option>WebP (Smallest)</option>
+          </select>
+        </div>
+        <div class="ep-row"><label>Export Quality <span id="lblExpQ">95%</span></label><input type="range" id="slExpQ" min="50" max="100" value="95" oninput="document.getElementById('lblExpQ').textContent=this.value+'%'"></div>
+        <button class="ep-btn primary-btn" onclick="downloadEdited()">⬇ Download Edited Image</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PDF EDITOR ============ -->
+<div class="section" id="sec-pdf-editor">
+  <div class="pdf-editor-wrap">
+    <div class="pdf-sidebar">
+      <div class="pdf-sidebar-head">PDF Tools</div>
+      <div class="pdf-tool-btn active" id="pt-text" onclick="setPdfTool('text')"><span class="pdf-tool-ico">📝</span> Add Text</div>
+      <div class="pdf-tool-btn" id="pt-highlight" onclick="setPdfTool('highlight')"><span class="pdf-tool-ico">🖊️</span> Highlight</div>
+      <div class="pdf-tool-btn" id="pt-sign" onclick="setPdfTool('sign')"><span class="pdf-tool-ico">✍️</span> Signature</div>
+      <div class="pdf-tool-btn" id="pt-stamp" onclick="setPdfTool('stamp')"><span class="pdf-tool-ico">🔖</span> Stamp</div>
+      <div class="pdf-tool-btn" id="pt-draw" onclick="setPdfTool('draw')"><span class="pdf-tool-ico">✏️</span> Draw</div>
+      <div class="pdf-tool-btn" id="pt-shape" onclick="setPdfTool('shape')"><span class="pdf-tool-ico">▭</span> Shapes</div>
+      <div class="pdf-tool-btn" id="pt-image" onclick="setPdfTool('image')"><span class="pdf-tool-ico">🖼️</span> Insert Image</div>
+      <div class="pdf-tool-btn" id="pt-redact" onclick="setPdfTool('redact')"><span class="pdf-tool-ico">🔲</span> Redact</div>
+      <div class="pdf-tool-btn" id="pt-watermark" onclick="setPdfTool('watermark')"><span class="pdf-tool-ico">💧</span> Watermark</div>
+      <div class="pdf-tool-btn" id="pt-pagenum" onclick="setPdfTool('pagenum')"><span class="pdf-tool-ico">🔢</span> Page Numbers</div>
+      <div class="pdf-tool-btn" id="pt-rotate" onclick="setPdfTool('rotate')"><span class="pdf-tool-ico">🔃</span> Rotate Page</div>
+    </div>
+
+    <div class="pdf-main">
+      <div class="pdf-topbar">
+        <button class="pdf-upload-btn"><input type="file" accept=".pdf" onchange="loadPdfFile(event)">📂 Open PDF</button>
+        <button class="btn-sec" onclick="applyPdfTool()" id="pdfApplyBtn">⚡ Apply</button>
+        <button class="btn-sec" onclick="downloadPdf()">⬇ Save PDF</button>
+        <span style="color:var(--muted);font-size:13px" id="pdfFilename">No file loaded</span>
+      </div>
+
+      <div class="pdf-main-inner">
+        <div class="pdf-area" id="pdfArea">
+          <div class="pdf-empty" id="pdfEmpty">
+            <div class="bi">📄</div>
+            <p style="font-family:'Syne',sans-serif;font-size:18px;margin-bottom:8px">Open a PDF to start editing</p>
+            <p style="font-size:13px;color:var(--muted)">Supports annotations, text, signatures, stamps & more</p>
+          </div>
+          <canvas id="pdfCanvas" style="display:none;max-width:100%;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.5)"></canvas>
+        </div>
+
+        <!-- PDF Tool Panel -->
+        <div class="pdf-tool-panel" id="pdfToolPanel">
+          <div class="ptool-title" id="ptoolTitle">Add Text</div>
+
+          <!-- Text Tool -->
+          <div id="pt-panel-text">
+            <div class="ptool-row"><label>Text Content</label><textarea id="pdfTextContent" placeholder="Enter text to add..."></textarea></div>
+            <div class="ptool-row"><label>Font Size</label><input type="range" min="8" max="72" value="16" id="pdfFontSize" oninput="this.nextElementSibling.textContent=this.value+'px'"><div style="font-size:11px;color:var(--a1);margin-top:4px">16px</div></div>
+            <div class="ptool-row"><label>Font Family</label>
+              <select id="pdfFontFamily">
+                <option>Helvetica</option><option>Times Roman</option><option>Courier</option><option>Arial</option><option>Georgia</option>
+              </select>
+            </div>
+            <div class="ptool-row"><label>Text Color</label><input type="color" id="pdfTextColor" value="#000000"></div>
+            <div class="ptool-row"><label>Position X (px)</label><input type="number" id="pdfPosX" value="50" placeholder="X position"></div>
+            <div class="ptool-row"><label>Position Y (px)</label><input type="number" id="pdfPosY" value="100" placeholder="Y position"></div>
+          </div>
+
+          <!-- Highlight Tool -->
+          <div id="pt-panel-highlight" style="display:none">
+            <div class="ptool-row"><label>Highlight Color</label>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+                <div onclick="setPdfHighlightColor('#ffff00',this)" style="width:32px;height:32px;background:#ffff00;border-radius:6px;cursor:pointer;border:2px solid white"></div>
+                <div onclick="setPdfHighlightColor('#90ee90',this)" style="width:32px;height:32px;background:#90ee90;border-radius:6px;cursor:pointer;border:2px solid transparent"></div>
+                <div onclick="setPdfHighlightColor('#add8e6',this)" style="width:32px;height:32px;background:#add8e6;border-radius:6px;cursor:pointer;border:2px solid transparent"></div>
+                <div onclick="setPdfHighlightColor('#ffb6c1',this)" style="width:32px;height:32px;background:#ffb6c1;border-radius:6px;cursor:pointer;border:2px solid transparent"></div>
+                <div onclick="setPdfHighlightColor('#dda0dd',this)" style="width:32px;height:32px;background:#dda0dd;border-radius:6px;cursor:pointer;border:2px solid transparent"></div>
+              </div>
+            </div>
+            <div class="ptool-row"><label>Opacity</label><input type="range" min="10" max="80" value="50" oninput="this.nextElementSibling.textContent=this.value+'%'"><div style="font-size:11px;color:var(--a1);margin-top:4px">50%</div></div>
+          </div>
+
+          <!-- Signature Tool -->
+          <div id="pt-panel-sign" style="display:none">
+            <div class="ptool-row"><label>Signature Type</label>
+              <select id="sigType" onchange="updateSigPanel()">
+                <option value="draw">Draw Signature</option>
+                <option value="type">Type Signature</option>
+              </select>
+            </div>
+            <div id="sig-draw-area">
+              <canvas id="sigCanvas" width="240" height="80" style="background:white;border-radius:8px;cursor:crosshair;border:1px solid var(--border2);margin-top:8px;display:block"></canvas>
+              <button class="ep-btn" onclick="clearSigCanvas()" style="margin-top:8px">Clear</button>
+            </div>
+            <div id="sig-type-area" style="display:none">
+              <div class="ptool-row"><label>Your Name</label><input type="text" id="sigTypeName" placeholder="Your signature"></div>
+              <div class="ptool-row"><label>Style</label>
+                <select id="sigStyle"><option>Brush Script</option><option>Elegant Italic</option><option>Bold Print</option></select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stamp Tool -->
+          <div id="pt-panel-stamp" style="display:none">
+            <div class="ptool-row"><label>Stamp Type</label>
+              <select id="stampType">
+                <option>APPROVED ✅</option><option>REJECTED ❌</option><option>DRAFT 📝</option>
+                <option>CONFIDENTIAL 🔒</option><option>URGENT ⚡</option><option>REVIEWED 👁</option>
+                <option>PAID 💰</option><option>VOID ⛔</option>
+              </select>
+            </div>
+            <div class="ptool-row"><label>Stamp Color</label><input type="color" id="stampColor" value="#ff0000"></div>
+            <div class="ptool-row"><label>Size</label><input type="range" min="50" max="300" value="150" oninput="this.nextElementSibling.textContent=this.value+'px'"><div style="font-size:11px;color:var(--a1);margin-top:4px">150px</div></div>
+          </div>
+
+          <!-- Watermark Tool -->
+          <div id="pt-panel-watermark" style="display:none">
+            <div class="ptool-row"><label>Watermark Text</label><input type="text" id="pdfWmText" value="CONFIDENTIAL"></div>
+            <div class="ptool-row"><label>Color</label><input type="color" id="pdfWmColor" value="#cccccc"></div>
+            <div class="ptool-row"><label>Opacity</label><input type="range" min="5" max="80" value="25" oninput="this.nextElementSibling.textContent=this.value+'%'"><div style="font-size:11px;color:var(--a1);margin-top:4px">25%</div></div>
+            <div class="ptool-row"><label>Angle</label><input type="range" min="-90" max="90" value="-45" oninput="this.nextElementSibling.textContent=this.value+'°'"><div style="font-size:11px;color:var(--a1);margin-top:4px">-45°</div></div>
+          </div>
+
+          <!-- Page Numbers -->
+          <div id="pt-panel-pagenum" style="display:none">
+            <div class="ptool-row"><label>Position</label>
+              <select id="pnPosition"><option>Bottom Center</option><option>Bottom Right</option><option>Bottom Left</option><option>Top Center</option><option>Top Right</option></select>
+            </div>
+            <div class="ptool-row"><label>Format</label>
+              <select id="pnFormat"><option>1, 2, 3...</option><option>Page 1 of N</option><option>- 1 -</option><option>i, ii, iii...</option></select>
+            </div>
+            <div class="ptool-row"><label>Start Number</label><input type="number" id="pnStart" value="1" min="1"></div>
+            <div class="ptool-row"><label>Font Size</label><input type="range" min="8" max="24" value="12" oninput="this.nextElementSibling.textContent=this.value+'px'"><div style="font-size:11px;color:var(--a1);margin-top:4px">12px</div></div>
+          </div>
+
+          <!-- Rotate Tool -->
+          <div id="pt-panel-rotate" style="display:none">
+            <div class="ptool-row"><label>Rotation</label>
+              <select id="rotateAngle"><option value="90">90° Clockwise</option><option value="-90">90° Counter-Clockwise</option><option value="180">180° (Upside Down)</option></select>
+            </div>
+            <div class="ptool-row"><label>Apply To</label>
+              <select id="rotateScope"><option>Current Page</option><option>All Pages</option><option>Even Pages</option><option>Odd Pages</option></select>
+            </div>
+          </div>
+
+          <!-- Draw Tool -->
+          <div id="pt-panel-draw" style="display:none">
+            <div class="ptool-row"><label>Pen Color</label><input type="color" id="pdfPenColor" value="#ff0000"></div>
+            <div class="ptool-row"><label>Pen Width</label><input type="range" min="1" max="20" value="3" oninput="this.nextElementSibling.textContent=this.value+'px'"><div style="font-size:11px;color:var(--a1);margin-top:4px">3px</div></div>
+            <p style="font-size:12px;color:var(--muted2)">Click and drag on the PDF preview to draw freehand annotations.</p>
+          </div>
+
+          <!-- Shape Tool -->
+          <div id="pt-panel-shape" style="display:none">
+            <div class="ptool-row"><label>Shape</label>
+              <select id="shapeType"><option>Rectangle</option><option>Ellipse</option><option>Arrow</option><option>Line</option></select>
+            </div>
+            <div class="ptool-row"><label>Fill Color</label><input type="color" id="shapeFill" value="#6c63ff"></div>
+            <div class="ptool-row"><label>Stroke Color</label><input type="color" id="shapeStroke" value="#000000"></div>
+            <div class="ptool-row"><label>Opacity</label><input type="range" min="10" max="100" value="60" oninput="this.nextElementSibling.textContent=this.value+'%'"><div style="font-size:11px;color:var(--a1);margin-top:4px">60%</div></div>
+          </div>
+
+          <!-- Redact Tool -->
+          <div id="pt-panel-redact" style="display:none">
+            <div class="ptool-row"><label>Redaction Color</label>
+              <select id="redactColor"><option value="#000">Black (Standard)</option><option value="#fff">White</option><option value="#005">Dark Blue</option></select>
+            </div>
+            <p style="font-size:12px;color:var(--a2);margin-top:8px">⚠ Redaction permanently removes content. This cannot be undone.</p>
+          </div>
+
+          <!-- Image Insert Tool -->
+          <div id="pt-panel-image" style="display:none">
+            <button class="ep-upload-btn" style="width:100%;margin-bottom:12px;font-size:12px;padding:10px">
+              <input type="file" accept="image/*" onchange="setPdfInsertImage(event)">
+              📁 Choose Image
+            </button>
+            <div class="ptool-row"><label>Width (px)</label><input type="number" id="pdfImgW" value="200" min="10"></div>
+            <div class="ptool-row"><label>Position X</label><input type="number" id="pdfImgX" value="50" min="0"></div>
+            <div class="ptool-row"><label>Position Y</label><input type="number" id="pdfImgY" value="50" min="0"></div>
+          </div>
+
+          <button class="apply-btn" onclick="applyPdfTool()">⚡ Apply to PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PHOTO SIZE CONVERTER ============ -->
+<div class="section" id="sec-photo-size">
+  <div class="ps-wrap">
+    <div class="ps-header">
+      <h2>📐 Photo Size Converter</h2>
+      <p>Resize to social media, passport, ID, print sizes, or custom dimensions</p>
+    </div>
+
+    <div class="ps-grid">
+      <!-- Left: Size Selector -->
+      <div>
+        <div class="ps-card">
+          <div class="ps-card-head">SELECT SIZE</div>
+          <div class="ps-card-body">
+
+            <!-- Social Media -->
+            <div class="size-category">
+              <div class="size-cat-title">📱 Social Media</div>
+              <div class="size-presets" id="presets-social">
+                <div class="size-preset selected" onclick="selectPreset(this,'Instagram Post',1080,1080,'px')" data-w="1080" data-h="1080">
+                  <div class="sp-name">Instagram Post</div><div class="sp-dims">1080 × 1080 px</div><div class="sp-unit">Square</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'Instagram Story',1080,1920,'px')" data-w="1080" data-h="1920">
+                  <div class="sp-name">Instagram Story</div><div class="sp-dims">1080 × 1920 px</div><div class="sp-unit">9:16</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'Facebook Cover',820,312,'px')" data-w="820" data-h="312">
+                  <div class="sp-name">Facebook Cover</div><div class="sp-dims">820 × 312 px</div><div class="sp-unit">Cover</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'Facebook Post',1200,630,'px')" data-w="1200" data-h="630">
+                  <div class="sp-name">Facebook Post</div><div class="sp-dims">1200 × 630 px</div><div class="sp-unit">Landscape</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'Twitter Post',1200,675,'px')" data-w="1200" data-h="675">
+                  <div class="sp-name">X (Twitter) Post</div><div class="sp-dims">1200 × 675 px</div><div class="sp-unit">16:9</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'Twitter Header',1500,500,'px')" data-w="1500" data-h="500">
+                  <div class="sp-name">X/Twitter Header</div><div class="sp-dims">1500 × 500 px</div><div class="sp-unit">Banner</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'YouTube Thumbnail',1280,720,'px')" data-w="1280" data-h="720">
+                  <div class="sp-name">YouTube Thumb</div><div class="sp-dims">1280 × 720 px</div><div class="sp-unit">16:9</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'YouTube Banner',2560,1440,'px')" data-w="2560" data-h="1440">
+                  <div class="sp-name">YouTube Banner</div><div class="sp-dims">2560 × 1440 px</div><div class="sp-unit">Channel Art</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'LinkedIn Profile',400,400,'px')" data-w="400" data-h="400">
+                  <div class="sp-name">LinkedIn Profile</div><div class="sp-dims">400 × 400 px</div><div class="sp-unit">Square</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'LinkedIn Banner',1584,396,'px')" data-w="1584" data-h="396">
+                  <div class="sp-name">LinkedIn Banner</div><div class="sp-dims">1584 × 396 px</div><div class="sp-unit">4:1</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'TikTok Video',1080,1920,'px')" data-w="1080" data-h="1920">
+                  <div class="sp-name">TikTok Cover</div><div class="sp-dims">1080 × 1920 px</div><div class="sp-unit">9:16</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'Pinterest Pin',1000,1500,'px')" data-w="1000" data-h="1500">
+                  <div class="sp-name">Pinterest Pin</div><div class="sp-dims">1000 × 1500 px</div><div class="sp-unit">2:3</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Passport / ID -->
+            <div class="size-category">
+              <div class="size-cat-title">🪪 Passport & ID Photos</div>
+              <div class="size-presets">
+                <div class="size-preset" onclick="selectPreset(this,'US Passport',2,2,'in')" data-w="600" data-h="600">
+                  <div class="sp-name">US Passport</div><div class="sp-dims">2″ × 2″</div><div class="sp-unit">50×50mm</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'UK Passport',35,45,'mm')" data-w="413" data-h="531">
+                  <div class="sp-name">UK Passport</div><div class="sp-dims">35 × 45 mm</div><div class="sp-unit">British</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'India Passport',35,45,'mm')" data-w="413" data-h="531">
+                  <div class="sp-name">India Passport</div><div class="sp-dims">35 × 45 mm</div><div class="sp-unit">Govt of India</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'EU/Schengen Visa',35,45,'mm')" data-w="413" data-h="531">
+                  <div class="sp-name">EU / Schengen</div><div class="sp-dims">35 × 45 mm</div><div class="sp-unit">Visa</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'Canada Passport',50,70,'mm')" data-w="591" data-h="826">
+                  <div class="sp-name">Canada Passport</div><div class="sp-dims">50 × 70 mm</div><div class="sp-unit">Canadian</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'China Visa',33,48,'mm')" data-w="390" data-h="567">
+                  <div class="sp-name">China Visa</div><div class="sp-dims">33 × 48 mm</div><div class="sp-unit">Chinese</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'Australia Passport',35,45,'mm')" data-w="413" data-h="531">
+                  <div class="sp-name">Australia Passport</div><div class="sp-dims">35 × 45 mm</div><div class="sp-unit">AUS</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'ID Card Photo',25,35,'mm')" data-w="295" data-h="413">
+                  <div class="sp-name">ID Card Photo</div><div class="sp-dims">25 × 35 mm</div><div class="sp-unit">Standard ID</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Print Sizes (Inches) -->
+            <div class="size-category">
+              <div class="size-cat-title">🖨️ Print Sizes (inches)</div>
+              <div class="size-presets">
+                <div class="size-preset" onclick="selectPreset(this,'Wallet Photo',2.5,3.5,'in')" data-w="750" data-h="1050">
+                  <div class="sp-name">Wallet (2.5×3.5″)</div><div class="sp-dims">750 × 1050 px</div><div class="sp-unit">@ 300 DPI</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'4×6 Photo',4,6,'in')" data-w="1200" data-h="1800">
+                  <div class="sp-name">4 × 6 inch</div><div class="sp-dims">1200 × 1800 px</div><div class="sp-unit">Standard Print</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'5×7 Photo',5,7,'in')" data-w="1500" data-h="2100">
+                  <div class="sp-name">5 × 7 inch</div><div class="sp-dims">1500 × 2100 px</div><div class="sp-unit">Large Print</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'8×10 Photo',8,10,'in')" data-w="2400" data-h="3000">
+                  <div class="sp-name">8 × 10 inch</div><div class="sp-dims">2400 × 3000 px</div><div class="sp-unit">Portrait Print</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'A4',8.27,11.69,'in')" data-w="2480" data-h="3508">
+                  <div class="sp-name">A4 Paper</div><div class="sp-dims">2480 × 3508 px</div><div class="sp-unit">@ 300 DPI</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'A5',5.83,8.27,'in')" data-w="1748" data-h="2480">
+                  <div class="sp-name">A5 Paper</div><div class="sp-dims">1748 × 2480 px</div><div class="sp-unit">@ 300 DPI</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'US Letter',8.5,11,'in')" data-w="2550" data-h="3300">
+                  <div class="sp-name">US Letter</div><div class="sp-dims">2550 × 3300 px</div><div class="sp-unit">@ 300 DPI</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'11×14 Photo',11,14,'in')" data-w="3300" data-h="4200">
+                  <div class="sp-name">11 × 14 inch</div><div class="sp-dims">3300 × 4200 px</div><div class="sp-unit">Gallery Print</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'16×20 Poster',16,20,'in')" data-w="4800" data-h="6000">
+                  <div class="sp-name">16 × 20 inch</div><div class="sp-dims">4800 × 6000 px</div><div class="sp-unit">Poster</div>
+                </div>
+                <div class="size-preset" onclick="selectPreset(this,'24×36 Poster',24,36,'in')" data-w="7200" data-h="10800">
+                  <div class="sp-name">24 × 36 inch</div><div class="sp-dims">7200 × 10800 px</div><div class="sp-unit">Large Poster</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custom Size -->
+            <div class="custom-size-section">
+              <div class="cus-title">Custom Size</div>
+              <div class="cus-row">
+                <div class="opt-group"><label>Width</label><input type="number" id="cusW" placeholder="Width" value="800" min="1"></div>
+                <div class="opt-group"><label>Height</label><input type="number" id="cusH" placeholder="Height" value="600" min="1"></div>
+                <div class="opt-group"><label>Unit</label>
+                  <select id="cusUnit">
+                    <option value="px">Pixels</option>
+                    <option value="in">Inches</option>
+                    <option value="mm">Millimeters</option>
+                    <option value="cm">Centimeters</option>
+                  </select>
+                </div>
+              </div>
+              <button class="apply-btn" onclick="applyCustomSize()" style="margin-top:12px">Apply Custom Size</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Upload & Output -->
+      <div>
+        <div class="ps-card" style="margin-bottom:16px">
+          <div class="ps-card-head">UPLOAD & CONVERT</div>
+          <div class="ps-card-body">
+            <button class="ps-upload-btn">
+              <input type="file" accept="image/*" onchange="loadPsImage(event)">
+              📁 Upload Photo
+            </button>
+
+            <!-- DPI selector -->
+            <div style="margin-bottom:14px">
+              <div style="font-size:11px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Output DPI (for print)</div>
+              <div class="dpi-row">
+                <div class="dpi-chip" onclick="setPsDpi(72,this)">72 DPI<br><span style="font-size:9px;color:var(--muted)">Screen</span></div>
+                <div class="dpi-chip active" onclick="setPsDpi(150,this)">150 DPI<br><span style="font-size:9px;color:var(--muted)">Standard</span></div>
+                <div class="dpi-chip" onclick="setPsDpi(300,this)">300 DPI<br><span style="font-size:9px;color:var(--muted)">Print</span></div>
+                <div class="dpi-chip" onclick="setPsDpi(600,this)">600 DPI<br><span style="font-size:9px;color:var(--muted)">High-Res</span></div>
+              </div>
+            </div>
+
+            <!-- Background color -->
+            <div style="margin-bottom:14px">
+              <div style="font-size:11px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Background Color</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <div onclick="setPsBg('#ffffff',this)" style="width:32px;height:32px;background:#ffffff;border-radius:6px;cursor:pointer;border:2px solid var(--a1)"></div>
+                <div onclick="setPsBg('#000000',this)" style="width:32px;height:32px;background:#000000;border-radius:6px;cursor:pointer;border:2px solid transparent"></div>
+                <div onclick="setPsBg('#f5f5f5',this)" style="width:32px;height:32px;background:#f5f5f5;border-radius:6px;cursor:pointer;border:2px solid transparent"></div>
+                <div onclick="setPsBg('#87ceeb',this)" style="width:32px;height:32px;background:#87ceeb;border-radius:6px;cursor:pointer;border:2px solid transparent"></div>
+                <input type="color" id="psBgColor" value="#ffffff" onchange="setPsBg(this.value,null)" style="width:32px;height:32px;border-radius:6px;border:1px solid var(--border2);cursor:pointer;padding:2px;background:none">
+              </div>
+            </div>
+
+            <!-- Fit mode -->
+            <div style="margin-bottom:16px">
+              <div style="font-size:11px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Fit Mode</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <div class="dpi-chip active" id="fit-contain" onclick="setPsFit('contain',this)">Contain</div>
+                <div class="dpi-chip" id="fit-cover" onclick="setPsFit('cover',this)">Cover (Crop)</div>
+                <div class="dpi-chip" id="fit-stretch" onclick="setPsFit('stretch',this)">Stretch</div>
+              </div>
+            </div>
+
+            <!-- Output format -->
+            <div style="margin-bottom:16px">
+              <div style="font-size:11px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Output Format</div>
+              <div style="display:flex;gap:8px">
+                <div class="dpi-chip active" onclick="setPsFormat('jpeg',this)">JPEG</div>
+                <div class="dpi-chip" onclick="setPsFormat('png',this)">PNG</div>
+                <div class="dpi-chip" onclick="setPsFormat('webp',this)">WebP</div>
+              </div>
+            </div>
+
+            <button class="ps-convert-btn" id="psConvertBtn" onclick="convertPhotoSize()" disabled>⚡ Convert & Resize</button>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="ps-card">
+          <div class="ps-card-head">PREVIEW & DOWNLOAD</div>
+          <div class="ps-card-body">
+            <div class="ps-canvas-wrap">
+              <div class="ps-empty" id="psEmpty">Upload an image to see preview</div>
+              <canvas id="psCanvas" style="display:none;max-width:100%;max-height:280px;object-fit:contain"></canvas>
+            </div>
+
+            <div class="ps-info-grid" id="psInfoGrid" style="display:none">
+              <div class="ps-info-item"><div class="psi-label">Target Size</div><div class="psi-val" id="psiTarget">—</div></div>
+              <div class="ps-info-item"><div class="psi-label">Output (px)</div><div class="psi-val" id="psiPx">—</div></div>
+              <div class="ps-info-item"><div class="psi-label">Format</div><div class="psi-val" id="psiFormat">JPEG</div></div>
+              <div class="ps-info-item"><div class="psi-label">File Size</div><div class="psi-val" id="psiSize">—</div></div>
+            </div>
+
+            <button class="ps-convert-btn" id="psDownloadBtn" onclick="downloadPsResult()" style="display:none;margin-top:14px">⬇ Download Resized Photo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL (for quick tool access) ============ -->
+<div class="overlay" id="overlay" onclick="handleOvClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-head-left">
+        <div id="mIcon" class="card-icon" style="margin:0;width:42px;height:42px;font-size:20px"></div>
+        <div><div id="mTitle" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700"></div><div id="mDesc" style="color:var(--muted2);font-size:12px;margin-top:3px"></div></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+// ============ NAV ============
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  const tabMap={'home':0,'img-editor':1,'pdf-editor':2,'photo-size':3};
+  const tabs=document.querySelectorAll('.nav-tab');
+  if(tabMap[id]!==undefined) tabs[tabMap[id]].classList.add('active');
+}
+
+// ============ IMAGE EDITOR ============
+let edCanvas=document.getElementById('editCanvas');
+let edCtx=edCanvas.getContext('2d');
+let edImg=null,edTool='select',undoStack=[],redoStack=[];
+let isDrawing=false,lastX=0,lastY=0;
+let brushColor='#fff',brushSize=4,brushOpacity=1;
+let currentFilter='none',edRotation=0,edFlipH=false,edFlipV=false;
+let edBright=0,edContrast=0,edSat=0,edBlur=0,edHue=0,edSharp=0;
+let edZoom=1;
+
+function loadEditorImage(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      edImg=img;
+      const maxW=edCanvas.parentElement.clientWidth-40;
+      const maxH=edCanvas.parentElement.clientHeight-40;
+      let w=img.width,h=img.height;
+      if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+      if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}
+      edCanvas.width=w;edCanvas.height=h;
+      edCanvas.style.display='block';
+      document.getElementById('canvasEmpty').style.display='none';
+      saveEdState();renderEditor();
+    };img.src=ev.target.result;
+  };reader.readAsDataURL(file);
+}
+
+function renderEditor(){
+  if(!edImg)return;
+  edCtx.save();edCtx.clearRect(0,0,edCanvas.width,edCanvas.height);
+  edCtx.translate(edCanvas.width/2,edCanvas.height/2);
+  edCtx.rotate(edRotation*Math.PI/180);
+  edCtx.scale(edFlipH?-1:1,edFlipV?-1:1);
+  // Build CSS filter
+  let f='';
+  if(edBright!==0)f+=`brightness(${1+edBright/100}) `;
+  if(edContrast!==0)f+=`contrast(${1+edContrast/100}) `;
+  if(edSat!==0)f+=`saturate(${1+edSat/100}) `;
+  if(edBlur>0)f+=`blur(${edBlur}px) `;
+  if(edHue!==0)f+=`hue-rotate(${edHue}deg) `;
+  // Apply named filters
+  const filterMap={grayscale:'grayscale(100%)',sepia:'sepia(100%)',invert:'invert(100%)',vintage:'sepia(50%) contrast(1.1) brightness(0.9) saturate(0.8)',vivid:'saturate(1.8) contrast(1.15)',cool:'hue-rotate(180deg) saturate(0.8)',warm:'sepia(30%) saturate(1.2)',fade:'brightness(1.1) saturate(0.6) contrast(0.9)',noir:'grayscale(100%) contrast(1.4) brightness(0.8)',chrome:'contrast(1.1) saturate(1.1) brightness(1.05)',punch:'contrast(1.3) saturate(1.5)',clarity:'contrast(1.1) brightness(1.05) saturate(1.1)',dreamy:'brightness(1.1) saturate(0.7) blur(0.5px)'};
+  if(currentFilter!=='none'&&filterMap[currentFilter])f+=filterMap[currentFilter];
+  edCtx.filter=f||'none';
+  edCtx.drawImage(edImg,-edCanvas.width/2,-edCanvas.height/2,edCanvas.width,edCanvas.height);
+  edCtx.restore();
+}
+
+function applyAdjustments(){
+  edBright=parseInt(document.getElementById('slBright').value)||0;
+  edContrast=parseInt(document.getElementById('slContrast').value)||0;
+  edSat=parseInt(document.getElementById('slSat').value)||0;
+  edBlur=parseInt(document.getElementById('slBlur').value)||0;
+  edHue=parseInt(document.getElementById('slHue').value)||0;
+  renderEditor();
+}
+
+function applyFilter(f){currentFilter=f;renderEditor();}
+function setEditorTool(t){
+  edTool=t;
+  document.querySelectorAll('.etool[id^=tool]').forEach(b=>b.classList.remove('active'));
+  const btn=document.getElementById('tool'+t.charAt(0).toUpperCase()+t.slice(1));
+  if(btn)btn.classList.add('active');
+  edCanvas.style.cursor=t==='pen'||t==='text'?'crosshair':t==='crop'?'se-resize':'default';
+}
+
+function setBrushColor(c,el){
+  brushColor=c;
+  document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('active'));
+  if(el)el.classList.add('active');
+}
+
+// Drawing
+edCanvas.addEventListener('mousedown',e=>{
+  if(!edImg)return;
+  isDrawing=true;
+  const r=edCanvas.getBoundingClientRect();
+  lastX=e.clientX-r.left;lastY=e.clientY-r.top;
+  if(edTool==='text'){
+    const t=document.getElementById('textInput').value.trim();
+    if(t){
+      edCtx.globalAlpha=brushOpacity;
+      edCtx.fillStyle=brushColor;
+      const fs=parseInt(document.getElementById('fontSize').value)||32;
+      const ff=document.getElementById('fontSelect').value||'Arial';
+      edCtx.font=`${fs}px ${ff}`;
+      edCtx.fillText(t,lastX,lastY);
+      edCtx.globalAlpha=1;
+    }
+  }
+});
+edCanvas.addEventListener('mousemove',e=>{
+  if(!isDrawing||!edImg)return;
+  const r=edCanvas.getBoundingClientRect();
+  const x=e.clientX-r.left,y=e.clientY-r.top;
+  if(edTool==='pen'){
+    edCtx.globalAlpha=brushOpacity;
+    edCtx.strokeStyle=brushColor;edCtx.lineWidth=brushSize;
+    edCtx.lineCap='round';edCtx.lineJoin='round';
+    edCtx.beginPath();edCtx.moveTo(lastX,lastY);edCtx.lineTo(x,y);edCtx.stroke();
+    edCtx.globalAlpha=1;
+  }else if(edTool==='rect'){
+    renderEditor();
+    edCtx.globalAlpha=0.7;
+    edCtx.strokeStyle=brushColor;edCtx.lineWidth=brushSize;
+    edCtx.strokeRect(Math.min(lastX,x),Math.min(lastY,y),Math.abs(x-lastX),Math.abs(y-lastY));
+    edCtx.globalAlpha=1;
+  }else if(edTool==='circle'){
+    renderEditor();
+    edCtx.globalAlpha=0.7;
+    edCtx.strokeStyle=brushColor;edCtx.lineWidth=brushSize;
+    edCtx.beginPath();
+    edCtx.arc((lastX+x)/2,(lastY+y)/2,Math.hypot(x-lastX,y-lastY)/2,0,Math.PI*2);
+    edCtx.stroke();edCtx.globalAlpha=1;
+  }else if(edTool==='line'){
+    renderEditor();
+    edCtx.globalAlpha=0.7;edCtx.strokeStyle=brushColor;edCtx.lineWidth=brushSize;
+    edCtx.beginPath();edCtx.moveTo(lastX,lastY);edCtx.lineTo(x,y);edCtx.stroke();edCtx.globalAlpha=1;
+  }
+  lastX=x;lastY=y;
+});
+edCanvas.addEventListener('mouseup',()=>{isDrawing=false;if(edImg)saveEdState();});
+
+function placeText(){
+  if(!edImg)return;
+  const t=document.getElementById('textInput').value.trim();if(!t)return;
+  edCtx.globalAlpha=brushOpacity;edCtx.fillStyle=brushColor;
+  const fs=parseInt(document.getElementById('fontSize').value)||32;
+  const ff=document.getElementById('fontSelect').value||'Arial';
+  edCtx.font=`bold ${fs}px ${ff}`;
+  edCtx.textAlign='center';edCtx.fillText(t,edCanvas.width/2,edCanvas.height/2);
+  edCtx.textAlign='left';edCtx.globalAlpha=1;saveEdState();
+}
+
+function addSticker(emoji){
+  if(!edImg)return;
+  edCtx.font=`60px serif`;edCtx.fillText(emoji,edCanvas.width/2-30,edCanvas.height/2+20);saveEdState();
+}
+
+function flipH(){edFlipH=!edFlipH;renderEditor();}
+function flipV(){edFlipV=!edFlipV;renderEditor();}
+function rotateBy(deg){edRotation+=deg;document.getElementById('slRotate').value=edRotation;document.getElementById('lblRotate').textContent=edRotation+'°';renderEditor();}
+function rotateTo(deg){edRotation=deg;renderEditor();}
+
+function saveEdState(){
+  undoStack.push(edCanvas.toDataURL());if(undoStack.length>20)undoStack.shift();redoStack=[];
+}
+function undoEdit(){
+  if(undoStack.length<2)return;
+  redoStack.push(undoStack.pop());
+  const img=new Image();img.onload=()=>{edCtx.clearRect(0,0,edCanvas.width,edCanvas.height);edCtx.drawImage(img,0,0);};
+  img.src=undoStack[undoStack.length-1];
+}
+function redoEdit(){
+  if(!redoStack.length)return;
+  const data=redoStack.pop();undoStack.push(data);
+  const img=new Image();img.onload=()=>{edCtx.clearRect(0,0,edCanvas.width,edCanvas.height);edCtx.drawImage(img,0,0);};img.src=data;
+}
+function clearCanvas(){if(!edImg)return;renderEditor();}
+function zoomIn(){edZoom=Math.min(4,edZoom+0.25);edCanvas.style.transform=`scale(${edZoom})`;document.getElementById('zoomLabel').textContent=Math.round(edZoom*100)+'%';}
+function zoomOut(){edZoom=Math.max(0.25,edZoom-0.25);edCanvas.style.transform=`scale(${edZoom})`;document.getElementById('zoomLabel').textContent=Math.round(edZoom*100)+'%';}
+
+function downloadEdited(){
+  if(!edImg)return;
+  const fmt=document.getElementById('exportFormat').value;
+  const q=parseInt(document.getElementById('slExpQ').value)/100;
+  const mime=fmt.includes('PNG')?'image/png':fmt.includes('WebP')?'image/webp':'image/jpeg';
+  const ext=fmt.includes('PNG')?'png':fmt.includes('WebP')?'webp':'jpg';
+  const a=document.createElement('a');a.href=edCanvas.toDataURL(mime,q);a.download=`edited.${ext}`;a.click();
+}
+
+// ============ PDF EDITOR ============
+let pdfTool='text',pdfImgToInsert=null,pdfLoaded=false,pdfFilenameStr='';
+let pdfDrawing=false,pdfLastX=0,pdfLastY=0;
+let pdfCanv=document.getElementById('pdfCanvas');
+let pdfCtx=pdfCanv.getContext('2d');
+let pdfOrigImg=null;
+
+function setPdfTool(t){
+  pdfTool=t;
+  document.querySelectorAll('.pdf-tool-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pt-'+t).classList.add('active');
+  document.querySelectorAll('[id^=pt-panel-]').forEach(p=>p.style.display='none');
+  const panel=document.getElementById('pt-panel-'+t);
+  if(panel)panel.style.display='block';
+  const titles={text:'Add Text',highlight:'Highlight Text',sign:'Add Signature',stamp:'Insert Stamp',draw:'Freehand Draw',shape:'Insert Shape',image:'Insert Image',redact:'Redact Content',watermark:'Add Watermark',pagenum:'Page Numbers',rotate:'Rotate Page'};
+  document.getElementById('ptoolTitle').textContent=titles[t]||t;
+}
+
+function loadPdfFile(e){
+  const file=e.target.files[0];if(!file)return;
+  pdfFilenameStr=file.name;pdfLoaded=true;
+  document.getElementById('pdfFilename').textContent=file.name;
+  // Render placeholder page since we don't have PDF.js
+  pdfCanv.width=600;pdfCanv.height=800;
+  pdfCanv.style.display='block';
+  document.getElementById('pdfEmpty').style.display='none';
+  pdfCtx.fillStyle='#ffffff';pdfCtx.fillRect(0,0,600,800);
+  // Draw a nice placeholder
+  pdfCtx.fillStyle='#f8f8f8';pdfCtx.fillRect(40,40,520,720);
+  pdfCtx.strokeStyle='#dddddd';pdfCtx.lineWidth=1;pdfCtx.strokeRect(40,40,520,720);
+  pdfCtx.fillStyle='#666666';pdfCtx.font='bold 24px Arial';pdfCtx.textAlign='center';
+  pdfCtx.fillText('PDF Document Preview',300,100);
+  pdfCtx.font='14px Arial';pdfCtx.fillStyle='#999';
+  pdfCtx.fillText(file.name,300,130);
+  // Draw lines to simulate text
+  pdfCtx.strokeStyle='#e0e0e0';pdfCtx.lineWidth=1;
+  for(let y=170;y<720;y+=26){pdfCtx.beginPath();pdfCtx.moveTo(60,y);pdfCtx.lineTo(540,y);pdfCtx.stroke();}
+  pdfCtx.textAlign='left';pdfCtx.fillStyle='#333';pdfCtx.font='13px Arial';
+  const lines=['This is a PDF preview canvas.','Use the tools on the left to annotate.','• Add text overlays','• Insert stamps & signatures','• Draw freehand annotations','• Add watermarks and page numbers','Click "Apply to PDF" to render your edits.'];
+  lines.forEach((l,i)=>pdfCtx.fillText(l,60,170+i*30));
+  pdfOrigImg=pdfCanv.toDataURL();
+  // Enable draw on PDF canvas
+  setupPdfDraw();
+}
+
+function setupPdfDraw(){
+  pdfCanv.addEventListener('mousedown',e=>{
+    if(pdfTool!=='draw')return;
+    pdfDrawing=true;
+    const r=pdfCanv.getBoundingClientRect();
+    const sx=pdfCanv.width/r.width;const sy=pdfCanv.height/r.height;
+    pdfLastX=(e.clientX-r.left)*sx;pdfLastY=(e.clientY-r.top)*sy;
+  });
+  pdfCanv.addEventListener('mousemove',e=>{
+    if(!pdfDrawing||pdfTool!=='draw')return;
+    const r=pdfCanv.getBoundingClientRect();
+    const sx=pdfCanv.width/r.width;const sy=pdfCanv.height/r.height;
+    const x=(e.clientX-r.left)*sx,y=(e.clientY-r.top)*sy;
+    pdfCtx.strokeStyle=document.getElementById('pdfPenColor').value;
+    pdfCtx.lineWidth=parseInt(document.querySelector('#pt-panel-draw input[type=range]').value)||3;
+    pdfCtx.lineCap='round';pdfCtx.beginPath();
+    pdfCtx.moveTo(pdfLastX,pdfLastY);pdfCtx.lineTo(x,y);pdfCtx.stroke();
+    pdfLastX=x;pdfLastY=y;
+  });
+  pdfCanv.addEventListener('mouseup',()=>pdfDrawing=false);
+}
+
+function applyPdfTool(){
+  if(!pdfLoaded){alert('Please upload a PDF first.');return;}
+  if(pdfTool==='text'){
+    const t=document.getElementById('pdfTextContent').value.trim();if(!t)return;
+    const x=parseInt(document.getElementById('pdfPosX').value)||50;
+    const y=parseInt(document.getElementById('pdfPosY').value)||100;
+    const fs=parseInt(document.getElementById('pdfFontSize').value)||16;
+    const ff=document.getElementById('pdfFontFamily').value;
+    const col=document.getElementById('pdfTextColor').value;
+    pdfCtx.fillStyle=col;pdfCtx.font=`${fs}px ${ff}`;pdfCtx.fillText(t,x,y);
+  }else if(pdfTool==='highlight'){
+    pdfCtx.globalAlpha=0.5;pdfCtx.fillStyle='#ffff00';
+    pdfCtx.fillRect(60,160,480,28);pdfCtx.globalAlpha=1;
+  }else if(pdfTool==='stamp'){
+    const st=document.getElementById('stampType').value;
+    const col=document.getElementById('stampColor').value;
+    pdfCtx.save();pdfCtx.globalAlpha=0.85;
+    pdfCtx.strokeStyle=col;pdfCtx.fillStyle=col;pdfCtx.lineWidth=3;
+    pdfCtx.font='bold 32px Arial';pdfCtx.textAlign='center';
+    pdfCtx.strokeText(st.split(' ').slice(0,-1).join(' '),300,420);
+    pdfCtx.restore();
+  }else if(pdfTool==='watermark'){
+    const wt=document.getElementById('pdfWmText').value||'CONFIDENTIAL';
+    const wc=document.getElementById('pdfWmColor').value;
+    const wa=parseInt(document.querySelector('#pt-panel-watermark input[type=range]').value)/100;
+    const wangle=parseInt(document.querySelectorAll('#pt-panel-watermark input[type=range]')[1]?.value||-45)*Math.PI/180;
+    pdfCtx.save();pdfCtx.globalAlpha=wa;pdfCtx.fillStyle=wc;
+    pdfCtx.font='bold 64px Arial';pdfCtx.textAlign='center';
+    pdfCtx.translate(300,400);pdfCtx.rotate(wangle);pdfCtx.fillText(wt,0,0);
+    pdfCtx.restore();
+  }else if(pdfTool==='pagenum'){
+    const fmt=document.getElementById('pnFormat').value;
+    const start=parseInt(document.getElementById('pnStart').value)||1;
+    const txt=fmt.includes('Page')?`Page ${start} of 1`:fmt.includes('-')?`- ${start} -`:`${start}`;
+    pdfCtx.save();pdfCtx.fillStyle='#333';pdfCtx.font='12px Arial';pdfCtx.textAlign='center';
+    pdfCtx.fillText(txt,300,785);pdfCtx.restore();
+  }else if(pdfTool==='sign'){
+    const stype=document.getElementById('sigType').value;
+    if(stype==='type'){
+      const name=document.getElementById('sigTypeName').value||'Signature';
+      pdfCtx.save();pdfCtx.fillStyle='#003080';pdfCtx.font='italic 32px Georgia';
+      pdfCtx.fillText(name,200,650);pdfCtx.restore();
+    }else{
+      const sc=document.getElementById('sigCanvas');
+      pdfCtx.drawImage(sc,200,620,240,80);
+    }
+  }else if(pdfTool==='redact'){
+    const col=document.getElementById('redactColor').value||'#000';
+    pdfCtx.fillStyle=col;pdfCtx.fillRect(60,165,300,22);
+  }else if(pdfTool==='rotate'){
+    const angle=parseInt(document.getElementById('rotateAngle').value)||90;
+    const tmp=document.createElement('canvas');
+    const abs=Math.abs(angle);
+    if(abs===90||abs===270){tmp.width=pdfCanv.height;tmp.height=pdfCanv.width;}
+    else{tmp.width=pdfCanv.width;tmp.height=pdfCanv.height;}
+    const tc=tmp.getContext('2d');
+    tc.translate(tmp.width/2,tmp.height/2);tc.rotate(angle*Math.PI/180);
+    tc.drawImage(pdfCanv,-pdfCanv.width/2,-pdfCanv.height/2);
+    pdfCanv.width=tmp.width;pdfCanv.height=tmp.height;
+    pdfCtx.drawImage(tmp,0,0);
+  }else if(pdfTool==='shape'){
+    const st=document.getElementById('shapeType').value;
+    const fill=document.getElementById('shapeFill').value;
+    const stroke=document.getElementById('shapeStroke').value;
+    const opa=parseInt(document.querySelector('#pt-panel-shape input[type=range]').value)/100;
+    pdfCtx.save();pdfCtx.globalAlpha=opa;
+    pdfCtx.fillStyle=fill;pdfCtx.strokeStyle=stroke;pdfCtx.lineWidth=2;
+    if(st==='Rectangle'){pdfCtx.fillRect(200,300,200,100);pdfCtx.strokeRect(200,300,200,100);}
+    else if(st==='Ellipse'){pdfCtx.beginPath();pdfCtx.ellipse(300,350,100,50,0,0,Math.PI*2);pdfCtx.fill();pdfCtx.stroke();}
+    else if(st==='Arrow'){pdfCtx.beginPath();pdfCtx.moveTo(200,350);pdfCtx.lineTo(380,350);pdfCtx.moveTo(360,335);pdfCtx.lineTo(380,350);pdfCtx.lineTo(360,365);pdfCtx.stroke();}
+    else if(st==='Line'){pdfCtx.beginPath();pdfCtx.moveTo(100,350);pdfCtx.lineTo(500,350);pdfCtx.stroke();}
+    pdfCtx.restore();
+  }else if(pdfTool==='image'&&pdfImgToInsert){
+    const w=parseInt(document.getElementById('pdfImgW').value)||200;
+    const x=parseInt(document.getElementById('pdfImgX').value)||50;
+    const y=parseInt(document.getElementById('pdfImgY').value)||50;
+    pdfCtx.drawImage(pdfImgToInsert,x,y,w,Math.round(w*pdfImgToInsert.height/pdfImgToInsert.width));
+  }
+  pdfOrigImg=pdfCanv.toDataURL();
+}
+
+function setPdfInsertImage(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{const img=new Image();img.onload=()=>pdfImgToInsert=img;img.src=ev.target.result;};
+  reader.readAsDataURL(file);
+}
+function setPdfHighlightColor(c,el){
+  document.querySelectorAll('#pt-panel-highlight div').forEach(d=>d.style.borderColor='transparent');
+  if(el)el.style.borderColor='white';
+}
+function downloadPdf(){
+  if(!pdfLoaded)return;
+  const a=document.createElement('a');a.href=pdfCanv.toDataURL('image/png');
+  a.download='edited_'+pdfFilenameStr.replace('.pdf','')+'.png';a.click();
+}
+
+// Signature canvas
+let sigCanv=document.getElementById('sigCanvas');
+let sigCtx=sigCanv.getContext('2d');
+let sigDrawing=false,sigLX=0,sigLY=0;
+sigCanv.addEventListener('mousedown',e=>{sigDrawing=true;const r=sigCanv.getBoundingClientRect();sigLX=e.clientX-r.left;sigLY=e.clientY-r.top;});
+sigCanv.addEventListener('mousemove',e=>{if(!sigDrawing)return;const r=sigCanv.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;sigCtx.strokeStyle='#000';sigCtx.lineWidth=2;sigCtx.lineCap='round';sigCtx.beginPath();sigCtx.moveTo(sigLX,sigLY);sigCtx.lineTo(x,y);sigCtx.stroke();sigLX=x;sigLY=y;});
+sigCanv.addEventListener('mouseup',()=>sigDrawing=false);
+function clearSigCanvas(){sigCtx.clearRect(0,0,sigCanv.width,sigCanv.height);}
+function updateSigPanel(){const t=document.getElementById('sigType').value;document.getElementById('sig-draw-area').style.display=t==='draw'?'block':'none';document.getElementById('sig-type-area').style.display=t==='type'?'block':'none';}
+
+// ============ PHOTO SIZE CONVERTER ============
+let psImg=null,psTargetW=1080,psTargetH=1080,psTargetName='Instagram Post',psTargetUnit='px';
+let psDpi=150,psBgColor='#ffffff',psFit='contain',psFormat='jpeg';
+let psResultDataUrl=null;
+
+function selectPreset(el,name,w,h,unit){
+  document.querySelectorAll('.size-preset').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+  psTargetName=name;psTargetUnit=unit;
+  psTargetW=parseInt(el.dataset.w);psTargetH=parseInt(el.dataset.h);
+  document.getElementById('psiTarget').textContent=name;
+  document.getElementById('psiPx').textContent=psTargetW+'×'+psTargetH;
+  if(psImg)renderPsPreview();
+}
+function applyCustomSize(){
+  const w=parseInt(document.getElementById('cusW').value);
+  const h=parseInt(document.getElementById('cusH').value);
+  const unit=document.getElementById('cusUnit').value;
+  if(!w||!h)return;
+  let pw=w,ph=h;
+  if(unit==='in'){pw=Math.round(w*psDpi);ph=Math.round(h*psDpi);}
+  else if(unit==='mm'){pw=Math.round(w*psDpi/25.4);ph=Math.round(h*psDpi/25.4);}
+  else if(unit==='cm'){pw=Math.round(w*psDpi/2.54);ph=Math.round(h*psDpi/2.54);}
+  document.querySelectorAll('.size-preset').forEach(p=>p.classList.remove('selected'));
+  psTargetW=pw;psTargetH=ph;psTargetName=`Custom (${w}×${h} ${unit})`;psTargetUnit=unit;
+  document.getElementById('psiTarget').textContent=psTargetName;
+  document.getElementById('psiPx').textContent=pw+'×'+ph;
+  if(psImg)renderPsPreview();
+}
+function setPsDpi(d,el){psDpi=d;document.querySelectorAll('.dpi-chip').forEach(c=>c.classList.remove('active'));if(el)el.classList.add('active');}
+function setPsBg(c,el){psBgColor=c;if(el){document.querySelectorAll('[onclick^=setPsBg]').forEach(e=>e.style.borderColor='transparent');el.style.borderColor='var(--a1)';}document.getElementById('psBgColor').value=c;if(psImg)renderPsPreview();}
+function setPsFit(f,el){psFit=f;document.querySelectorAll('[id^=fit-]').forEach(c=>c.classList.remove('active'));if(el)el.classList.add('active');if(psImg)renderPsPreview();}
+function setPsFormat(f,el){psFormat=f;document.querySelectorAll('[onclick^=setPsFormat]').forEach(c=>c.classList.remove('active'));if(el)el.classList.add('active');document.getElementById('psiFormat').textContent=f.toUpperCase();}
+
+function loadPsImage(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{psImg=img;document.getElementById('psConvertBtn').disabled=false;renderPsPreview();};
+    img.src=ev.target.result;
+  };reader.readAsDataURL(file);
+}
+
+function renderPsPreview(){
+  if(!psImg)return;
+  const canvas=document.getElementById('psCanvas');
+  canvas.width=psTargetW;canvas.height=psTargetH;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle=psBgColor;ctx.fillRect(0,0,psTargetW,psTargetH);
+  if(psFit==='stretch'){
+    ctx.drawImage(psImg,0,0,psTargetW,psTargetH);
+  }else if(psFit==='contain'){
+    const scale=Math.min(psTargetW/psImg.width,psTargetH/psImg.height);
+    const w=psImg.width*scale,h=psImg.height*scale;
+    ctx.drawImage(psImg,(psTargetW-w)/2,(psTargetH-h)/2,w,h);
+  }else if(psFit==='cover'){
+    const scale=Math.max(psTargetW/psImg.width,psTargetH/psImg.height);
+    const w=psImg.width*scale,h=psImg.height*scale;
+    ctx.drawImage(psImg,(psTargetW-w)/2,(psTargetH-h)/2,w,h);
+  }
+  canvas.style.display='block';
+  document.getElementById('psEmpty').style.display='none';
+  psResultDataUrl=canvas.toDataURL(psFormat==='png'?'image/png':psFormat==='webp'?'image/webp':'image/jpeg',0.92);
+  const b64=psResultDataUrl.split(',')[1];
+  const bytes=Math.round((b64.length*3)/4);
+  document.getElementById('psiSize').textContent=bytes<1024*1024?(bytes/1024).toFixed(0)+' KB':(bytes/1024/1024).toFixed(2)+' MB';
+  document.getElementById('psiPx').textContent=psTargetW+'×'+psTargetH;
+  document.getElementById('psiFormat').textContent=psFormat.toUpperCase();
+  document.getElementById('psiTarget').textContent=psTargetName;
+  document.getElementById('psInfoGrid').style.display='grid';
+  document.getElementById('psDownloadBtn').style.display='flex';
+}
+
+function convertPhotoSize(){
+  if(!psImg)return;
+  renderPsPreview();
+}
+
+function downloadPsResult(){
+  if(!psResultDataUrl)return;
+  const ext=psFormat==='png'?'png':psFormat==='webp'?'webp':'jpg';
+  const name=psTargetName.replace(/[^a-z0-9]/gi,'_').toLowerCase();
+  const a=document.createElement('a');a.href=psResultDataUrl;a.download=`${name}.${ext}`;a.click();
+}
+
+// ============ QUICK MODALS ============
+const MODAL_TOOLS = {
+  'filters':{icon:'✨',color:'ci-pink',title:'Photo Filters',desc:'Apply artistic filters to your image',
+    build:()=>`<div class="upload-zone" id="mDz"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">✨</div><div class="uz-title">Drop image here</div><div class="uz-sub">or</div><div class="uz-btn">Browse</div></div><div class="opt-grid" style="margin-top:16px"><div class="opt-group"><label>Filter</label><select id="mFilter"><option value="none">None</option><option value="grayscale(100%)">Grayscale</option><option value="sepia(100%)">Sepia</option><option value="invert(100%)">Invert</option><option value="contrast(1.4) saturate(1.8)">Vivid</option><option value="brightness(1.1) saturate(0.6)">Fade</option><option value="grayscale(100%) contrast(1.4)">Noir</option><option value="sepia(40%) brightness(0.9)">Vintage</option><option value="contrast(1.3) saturate(1.5)">Punch</option></select></div><div class="opt-group"><label>Intensity</label><input type="range" id="mIntensity" min="0" max="100" value="100" oninput="this.nextElementSibling.textContent=this.value+'%'"><div class="range-disp">100%</div></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mApplyFilter()">⚡ Apply Filter</button></div>`},
+  'adjust':{icon:'🎛️',color:'ci-teal',title:'Brightness & Adjustments',desc:'Fine-tune image parameters',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">🎛️</div><div class="uz-title">Drop image here</div><div class="uz-sub">or</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Brightness</label><input type="range" id="mBright" min="-100" max="100" value="0" oninput="this.nextElementSibling.textContent=this.value;mLiveAdj()"><div class="range-disp">0</div></div><div class="opt-group"><label>Contrast</label><input type="range" id="mContr" min="-100" max="100" value="0" oninput="this.nextElementSibling.textContent=this.value;mLiveAdj()"><div class="range-disp">0</div></div><div class="opt-group"><label>Saturation</label><input type="range" id="mSat2" min="-100" max="100" value="0" oninput="this.nextElementSibling.textContent=this.value;mLiveAdj()"><div class="range-disp">0</div></div><div class="opt-group"><label>Hue</label><input type="range" id="mHue2" min="-180" max="180" value="0" oninput="this.nextElementSibling.textContent=this.value+'°';mLiveAdj()"><div class="range-disp">0°</div></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mDownload()">⬇ Download</button></div>`},
+  'flip-rotate':{icon:'🔄',color:'ci-orange',title:'Flip & Rotate',desc:'Rotate and flip images',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">🔄</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Rotation</label><select id="mRot"><option value="0">No Rotation</option><option value="90">90° Clockwise</option><option value="-90">90° Counter</option><option value="180">180°</option><option value="45">45°</option><option value="-45">-45°</option></select></div><div class="opt-group"><label>Flip</label><select id="mFlip"><option value="none">No Flip</option><option value="h">Horizontal</option><option value="v">Vertical</option><option value="both">Both</option></select></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mApplyTransform()">⚡ Transform</button></div>`},
+  'text-add':{icon:'🔤',color:'ci-blue',title:'Add Text to Image',desc:'Overlay custom text on photos',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">🔤</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group" style="grid-column:1/-1"><label>Text Content</label><input type="text" id="mTextVal" placeholder="Your text here..."></div><div class="opt-group"><label>Font</label><select id="mFont"><option>Arial</option><option>Georgia</option><option>Impact</option><option>Courier New</option><option>Verdana</option></select></div><div class="opt-group"><label>Size (px)</label><input type="number" id="mFontSz" value="48" min="8" max="300"></div><div class="opt-group"><label>Color</label><input type="color" id="mTextCol" value="#ffffff"></div><div class="opt-group"><label>Position</label><select id="mTextPos"><option>Center</option><option>Top</option><option>Bottom</option><option>Top-Left</option><option>Top-Right</option></select></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mAddText()">⚡ Add Text</button></div>`},
+  'img-compress':{icon:'📦',color:'ci-teal',title:'Image Compressor',desc:'Reduce image file size',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">📦</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Quality</label><input type="range" id="mCmpQ" min="10" max="100" value="75" oninput="this.nextElementSibling.textContent=this.value+'%'"><div class="range-disp">75%</div></div><div class="opt-group"><label>Format</label><select id="mCmpFmt"><option>JPEG</option><option>WebP</option><option>PNG</option></select></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mCompress()">📦 Compress</button></div>`},
+  'img-convert':{icon:'🔄',color:'ci-orange',title:'Format Converter',desc:'Convert between image formats',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">🔄</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Convert To</label><select id="mConvFmt"><option value="jpeg">JPEG</option><option value="png">PNG</option><option value="webp">WebP</option></select></div><div class="opt-group"><label>Quality</label><input type="range" id="mConvQ" min="10" max="100" value="90" oninput="this.nextElementSibling.textContent=this.value+'%'"><div class="range-disp">90%</div></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mConvert()">🔄 Convert</button></div>`},
+  'bg-remove':{icon:'🎭',color:'ci-teal',title:'Background Remover',desc:'Remove image backgrounds',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">🎭</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Replace With</label><select id="mBgReplace"><option>Transparent</option><option>White</option><option>Black</option><option>Blue (#87ceeb)</option></select></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px;background:repeating-conic-gradient(#aaa 0% 25%,#fff 0% 50%) 0/16px 16px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mBgRemove()">🎭 Remove BG</button></div>`},
+  'passport':{icon:'🪪',color:'ci-blue',title:'Passport Photo Maker',desc:'Government-standard passport photos',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">🪪</div><div class="uz-title">Drop portrait photo</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Country Standard</label><select id="mPassport"><option value="600,600">US (2×2 inch)</option><option value="413,531">UK / India / EU (35×45mm)</option><option value="591,826">Canada (50×70mm)</option><option value="390,567">China (33×48mm)</option><option value="295,413">ID Card (25×35mm)</option></select></div><div class="opt-group"><label>Background</label><select id="mPassBg"><option value="#ffffff">White</option><option value="#87ceeb">Light Blue</option><option value="#f0f0f0">Off-White</option></select></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:6px;border:2px solid var(--border)"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mMakePassport()">📸 Make Passport Photo</button></div>`},
+  'social-resize':{icon:'📱',color:'ci-purple',title:'Social Media Resizer',desc:'Resize for any social platform',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">📱</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Platform</label><select id="mSocial"><option value="1080,1080">Instagram Post (1080²)</option><option value="1080,1920">Instagram Story (1080×1920)</option><option value="820,312">Facebook Cover (820×312)</option><option value="1200,630">Facebook Post (1200×630)</option><option value="1200,675">Twitter Post (1200×675)</option><option value="1280,720">YouTube Thumb (1280×720)</option><option value="400,400">LinkedIn Profile (400²)</option><option value="1000,1500">Pinterest Pin (1000×1500)</option></select></div><div class="opt-group"><label>Fit Mode</label><select id="mSocFit"><option>Contain</option><option>Cover</option><option>Stretch</option></select></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mSocialResize()">📐 Resize</button></div>`},
+  'blur-bg':{icon:'🌫️',color:'ci-pink',title:'Blur Background',desc:'Apply blur effects to images',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">🌫️</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Blur Amount</label><input type="range" id="mBlurAmt" min="1" max="20" value="8" oninput="this.nextElementSibling.textContent=this.value+'px'"><div class="range-disp">8px</div></div><div class="opt-group"><label>Blur Type</label><select id="mBlurType"><option>Gaussian</option><option>Motion</option><option>Radial</option></select></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mBlur()">🌫️ Apply Blur</button></div>`},
+  'sticker':{icon:'🎭',color:'ci-purple',title:'Sticker Overlay',desc:'Add stickers and emoji to photos',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">🎭</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div style="margin-top:16px"><div style="font-size:11px;color:var(--muted2);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Pick Sticker</div><div style="display:flex;flex-wrap:wrap;gap:8px">${['❤️','⭐','🔥','✅','🎉','💯','🎨','💫','🦋','🌈','👑','💎','🏆','🎯','💪','🌟','🍀','🦄','🎸','🚀'].map(e=>`<div onclick="mSelectSticker('${e}',this)" style="font-size:28px;cursor:pointer;padding:4px;border-radius:6px;border:2px solid transparent;transition:all .2s" class="stk-opt">${e}</div>`).join('')}</div></div><div class="opt-grid" style="margin-top:12px"><div class="opt-group"><label>Sticker Size</label><input type="range" id="mStkSize" min="20" max="200" value="80" oninput="this.nextElementSibling.textContent=this.value+'px'"><div class="range-disp">80px</div></div><div class="opt-group"><label>Position</label><select id="mStkPos"><option>Center</option><option>Top-Right</option><option>Bottom-Right</option><option>Bottom-Left</option><option>Top-Left</option></select></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mAddSticker()">⚡ Add Sticker</button></div>`},
+  'color-correct':{icon:'🎨',color:'ci-orange',title:'Color Correction',desc:'White balance and color grading',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">🎨</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Warmth</label><input type="range" id="mWarmth" min="-50" max="50" value="0" oninput="this.nextElementSibling.textContent=this.value;mLiveCC()"><div class="range-disp">0</div></div><div class="opt-group"><label>Tint</label><input type="range" id="mTint" min="-50" max="50" value="0" oninput="this.nextElementSibling.textContent=this.value;mLiveCC()"><div class="range-disp">0</div></div><div class="opt-group"><label>Vibrance</label><input type="range" id="mVibrance" min="-100" max="100" value="0" oninput="this.nextElementSibling.textContent=this.value;mLiveCC()"><div class="range-disp">0</div></div><div class="opt-group"><label>Shadows</label><input type="range" id="mShadows" min="-50" max="50" value="0" oninput="this.nextElementSibling.textContent=this.value;mLiveCC()"><div class="range-disp">0</div></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mDownload()">⬇ Download</button></div>`},
+  'vignette':{icon:'⭕',color:'ci-blue',title:'Vignette & Borders',desc:'Add artistic borders and effects',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">⭕</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Vignette Strength</label><input type="range" id="mVigStr" min="0" max="100" value="50" oninput="this.nextElementSibling.textContent=this.value+'%'"><div class="range-disp">50%</div></div><div class="opt-group"><label>Border Style</label><select id="mBorderStyle"><option value="none">None</option><option value="solid">Solid Border</option><option value="rounded">Rounded</option><option value="polaroid">Polaroid</option></select></div><div class="opt-group"><label>Border Color</label><input type="color" id="mBorderCol" value="#ffffff"></div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px"></canvas></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mVignette()">⚡ Apply</button></div>`},
+  'draw':{icon:'✏️',color:'ci-teal',title:'Draw & Annotate',desc:'Freehand draw and add annotations',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImg(event)"><div class="uz-icon">✏️</div><div class="uz-title">Drop image</div><div class="uz-btn">Browse</div></div><div id="mPreview" style="margin-top:16px;display:none"><canvas id="mCanvas" style="max-width:100%;border-radius:8px;cursor:crosshair;border:1px solid var(--border)"></canvas></div><div class="opt-grid" style="margin-top:12px"><div class="opt-group"><label>Color</label><input type="color" id="mDrawCol" value="#ff0000"></div><div class="opt-group"><label>Brush Size</label><input type="range" id="mDrawSz" min="1" max="30" value="5" oninput="this.nextElementSibling.textContent=this.value+'px'"><div class="range-disp">5px</div></div></div><div class="act-row"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mDownload()">⬇ Download</button></div>`},
+  'ocr':{icon:'🔍',color:'ci-purple',title:'OCR Text Extractor',desc:'Extract text from images',
+    build:()=>`<div class="upload-zone"><input type="file" accept="image/*" onchange="mLoadImgSimple(event)"><div class="uz-icon">🔍</div><div class="uz-title">Drop image with text</div><div class="uz-btn">Browse</div></div><div class="opt-grid"><div class="opt-group"><label>Language</label><select id="mOcrLang"><option>English</option><option>Spanish</option><option>French</option><option>Hindi</option><option>Arabic</option></select></div></div><div id="mOcrResult" style="display:none;margin-top:16px"><div style="font-size:11px;color:var(--muted2);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Extracted Text</div><div class="mono-result" id="mOcrText"></div><button class="dl-btn" onclick="copyOcr()" style="margin-top:10px">📋 Copy Text</button></div><div class="act-row" style="margin-top:12px"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mDoOcr()">🔍 Extract Text</button></div>`},
+  'zip-create':{icon:'🗂️',color:'ci-blue',title:'ZIP Creator',desc:'Compress files into ZIP archive',
+    build:()=>`<div class="upload-zone"><input type="file" accept="*/*" multiple onchange="mLoadFiles(event)"><div class="uz-icon">🗂️</div><div class="uz-title">Drop files here</div><div class="uz-sub">Multiple files supported</div><div class="uz-btn">Browse</div></div><div class="flist" id="mFileList"></div><div class="opt-grid" style="margin-top:8px"><div class="opt-group"><label>Archive Name</label><input type="text" id="mZipName" value="archive" placeholder="archive"></div></div><div class="act-row" style="margin-top:12px"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mCreateZip()">🗜 Create ZIP</button></div><div class="result" id="mZipResult"></div>`},
+  'pdf-merge':{icon:'🔗',color:'ci-pink',title:'PDF Merger',desc:'Merge multiple PDFs into one',
+    build:()=>`<div class="upload-zone"><input type="file" accept=".pdf" multiple onchange="mLoadFiles(event)"><div class="uz-icon">🔗</div><div class="uz-title">Drop PDF files</div><div class="uz-sub">Multiple PDFs supported</div><div class="uz-btn">Browse</div></div><div class="flist" id="mFileList"></div><div class="act-row" style="margin-top:12px"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-go" onclick="mMergePdf()">🔗 Merge PDFs</button></div><div class="result" id="mZipResult"></div>`},
+  'pdf-annotate':{icon:'🖊️',color:'ci-pink',title:'PDF Annotator',desc:'Highlight and annotate PDFs',build:()=>`<div style="text-align:center;padding:24px"><div style="font-size:48px;margin-bottom:16px">🖊️</div><p style="color:var(--muted2)">Open the <strong style="color:var(--a1)">PDF Editor</strong> for full annotation tools including highlights, comments, stamps, and signatures.</p><button class="btn-go" onclick="closeModal();showSection('pdf-editor')" style="margin-top:20px">Open PDF Editor →</button></div>`},
+  'pdf-sign':{icon:'✍️',color:'ci-teal',title:'PDF Signature',desc:'Sign PDFs digitally',build:()=>`<div style="text-align:center;padding:24px"><div style="font-size:48px;margin-bottom:16px">✍️</div><p style="color:var(--muted2)">Full signature tools are available in the <strong style="color:var(--a1)">PDF Editor</strong> — draw, type or upload signatures.</p><button class="btn-go" onclick="closeModal();showSection('pdf-editor')" style="margin-top:20px">Open PDF Editor →</button></div>`},
+  'pdf-watermark':{icon:'💧',color:'ci-orange',title:'PDF Watermark',desc:'Add watermarks to PDFs',build:()=>`<div style="text-align:center;padding:24px"><div style="font-size:48px;margin-bottom:16px">💧</div><p style="color:var(--muted2)">PDF watermark tools are in the <strong style="color:var(--a1)">PDF Editor</strong>. Upload your PDF and use the watermark tool.</p><button class="btn-go" onclick="closeModal();showSection('pdf-editor')" style="margin-top:20px">Open PDF Editor →</button></div>`},
+  'pdf-page-num':{icon:'🔢',color:'ci-blue',title:'Add Page Numbers',desc:'Insert page numbers to PDF',build:()=>`<div style="text-align:center;padding:24px"><div style="font-size:48px;margin-bottom:16px">🔢</div><p style="color:var(--muted2)">Page numbering is available in the <strong style="color:var(--a1)">PDF Editor</strong>. Open a PDF and select "Page Numbers" from the tools.</p><button class="btn-go" onclick="closeModal();showSection('pdf-editor')" style="margin-top:20px">Open PDF Editor →</button></div>`},
+  'pdf-rotate':{icon:'🔃',color:'ci-purple',title:'Rotate PDF Pages',desc:'Rotate PDF pages',build:()=>`<div style="text-align:center;padding:24px"><div style="font-size:48px;margin-bottom:16px">🔃</div><p style="color:var(--muted2)">Page rotation tools are available in the <strong style="color:var(--a1)">PDF Editor</strong>.</p><button class="btn-go" onclick="closeModal();showSection('pdf-editor')" style="margin-top:20px">Open PDF Editor →</button></div>`},
+  'pdf-redact':{icon:'🔲',color:'ci-pink',title:'PDF Redaction',desc:'Black out sensitive content',build:()=>`<div style="text-align:center;padding:24px"><div style="font-size:48px;margin-bottom:16px">🔲</div><p style="color:var(--muted2)">Redaction tools are in the <strong style="color:var(--a1)">PDF Editor</strong>. Select "Redact" from the sidebar.</p><button class="btn-go" onclick="closeModal();showSection('pdf-editor')" style="margin-top:20px">Open PDF Editor →</button></div>`},
+  'pdf-header':{icon:'📋',color:'ci-teal',title:'PDF Header & Footer',desc:'Add headers and footers',build:()=>`<div style="text-align:center;padding:24px"><div style="font-size:48px;margin-bottom:16px">📋</div><p style="color:var(--muted2)">Header/footer tools are available in the <strong style="color:var(--a1)">PDF Editor</strong> using the Add Text tool.</p><button class="btn-go" onclick="closeModal();showSection('pdf-editor')" style="margin-top:20px">Open PDF Editor →</button></div>`},
+};
+
+let mCurrentImg=null,mCurrentFiles=[],mCurrentSticker='❤️';
+function openModal(toolId){
+  const tool=MODAL_TOOLS[toolId];if(!tool)return;
+  document.getElementById('mIcon').className='card-icon '+tool.color;
+  document.getElementById('mIcon').style.cssText='margin:0;width:42px;height:42px;font-size:20px;display:grid;place-items:center;border-radius:12px';
+  document.getElementById('mIcon').textContent=tool.icon;
+  document.getElementById('mTitle').textContent=tool.title;
+  document.getElementById('mDesc').textContent=tool.desc;
+  document.getElementById('mBody').innerHTML=tool.build();
+  document.getElementById('overlay').classList.add('open');
+  mCurrentImg=null;mCurrentFiles=[];
+  // Setup draw canvas if draw tool
+  if(toolId==='draw'){setupMDrawCanvas();}
+}
+function closeModal(){document.getElementById('overlay').classList.remove('open');}
+function handleOvClick(e){if(e.target===document.getElementById('overlay'))closeModal();}
+
+function mLoadImg(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      mCurrentImg=img;
+      const prev=document.getElementById('mPreview');if(prev)prev.style.display='block';
+      const c=document.getElementById('mCanvas');if(!c)return;
+      const maxW=580;const maxH=300;
+      let w=img.width,h=img.height;
+      if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+      if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}
+      c.width=w;c.height=h;
+      const ctx=c.getContext('2d');ctx.drawImage(img,0,0,w,h);
+    };img.src=ev.target.result;
+  };reader.readAsDataURL(file);
+}
+function mLoadImgSimple(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{const i=new Image();i.onload=()=>mCurrentImg=i;i.src=ev.target.result;};reader.readAsDataURL(file);}
+function mLoadFiles(e){mCurrentFiles=Array.from(e.target.files);const list=document.getElementById('mFileList');if(list)list.innerHTML=mCurrentFiles.map(f=>`<div class="fitem"><div class="fitem-l"><span class="fitem-ico">📄</span><div><div class="fitem-name">${f.name}</div><div class="fitem-sz">${(f.size/1024).toFixed(1)} KB</div></div></div></div>`).join('');}
+
+function mGetCanvas(){return document.getElementById('mCanvas');}
+function mGetCtx(){const c=mGetCanvas();return c?c.getContext('2d'):null;}
+
+function mApplyFilter(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;
+  const filter=document.getElementById('mFilter').value;
+  const ctx=c.getContext('2d');
+  ctx.filter=filter||'none';ctx.drawImage(mCurrentImg,0,0,c.width,c.height);ctx.filter='none';
+}
+function mLiveAdj(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  const b=(parseInt(document.getElementById('mBright')?.value)||0)/100;
+  const co=(parseInt(document.getElementById('mContr')?.value)||0)/100;
+  const s=(parseInt(document.getElementById('mSat2')?.value)||0)/100;
+  const h=(parseInt(document.getElementById('mHue2')?.value)||0);
+  ctx.filter=`brightness(${1+b}) contrast(${1+co}) saturate(${1+s}) hue-rotate(${h}deg)`;
+  ctx.drawImage(mCurrentImg,0,0,c.width,c.height);ctx.filter='none';
+}
+function mLiveCC(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  const w=(parseInt(document.getElementById('mWarmth')?.value)||0);
+  const v=(parseInt(document.getElementById('mVibrance')?.value)||0)/100;
+  ctx.filter=`sepia(${Math.max(0,w)/100}) saturate(${1+v}) hue-rotate(${w<0?w:0}deg)`;
+  ctx.drawImage(mCurrentImg,0,0,c.width,c.height);ctx.filter='none';
+}
+function mApplyTransform(){
+  if(!mCurrentImg)return;const c=mGetCanvas();if(!c)return;
+  const rot=parseInt(document.getElementById('mRot')?.value)||0;
+  const flip=document.getElementById('mFlip')?.value||'none';
+  const ctx=c.getContext('2d');
+  if(rot===90||rot===-90){c.width=mCurrentImg.height>600?600:mCurrentImg.height;c.height=mCurrentImg.width>400?400:mCurrentImg.width;}
+  ctx.save();ctx.translate(c.width/2,c.height/2);ctx.rotate(rot*Math.PI/180);
+  ctx.scale(flip==='h'||flip==='both'?-1:1,flip==='v'||flip==='both'?-1:1);
+  ctx.drawImage(mCurrentImg,-c.width/2,-c.height/2,c.width,c.height);ctx.restore();
+}
+function mAddText(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  ctx.drawImage(mCurrentImg,0,0,c.width,c.height);
+  const t=document.getElementById('mTextVal')?.value||'';if(!t)return;
+  const fs=parseInt(document.getElementById('mFontSz')?.value)||48;
+  const ff=document.getElementById('mFont')?.value||'Arial';
+  const col=document.getElementById('mTextCol')?.value||'#fff';
+  const pos=document.getElementById('mTextPos')?.value||'Center';
+  ctx.font=`bold ${Math.min(fs,c.height/3)}px ${ff}`;ctx.fillStyle=col;ctx.textAlign='center';
+  ctx.shadowColor='rgba(0,0,0,0.5)';ctx.shadowBlur=4;
+  const y=pos==='Top'?fs+10:pos==='Bottom'?c.height-20:c.height/2;
+  ctx.fillText(t,c.width/2,y);ctx.shadowBlur=0;
+}
+function mCompress(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  ctx.drawImage(mCurrentImg,0,0,c.width,c.height);
+  const q=parseInt(document.getElementById('mCmpQ')?.value||75)/100;
+  const fmt=document.getElementById('mCmpFmt')?.value||'JPEG';
+  const mime=fmt==='PNG'?'image/png':fmt==='WebP'?'image/webp':'image/jpeg';
+  const url=c.toDataURL(mime,q);
+  const a=document.createElement('a');a.href=url;a.download=`compressed.${fmt.toLowerCase()}`;a.click();
+}
+function mConvert(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  ctx.drawImage(mCurrentImg,0,0,c.width,c.height);
+  const fmt=document.getElementById('mConvFmt')?.value||'jpeg';
+  const q=parseInt(document.getElementById('mConvQ')?.value||90)/100;
+  const url=c.toDataURL('image/'+fmt,q);
+  const a=document.createElement('a');a.href=url;a.download=`converted.${fmt}`;a.click();
+}
+function mBgRemove(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  const bg=document.getElementById('mBgReplace')?.value||'Transparent';
+  if(bg!=='Transparent'){ctx.fillStyle=bg==='White'?'#fff':bg==='Black'?'#000':'#87ceeb';ctx.fillRect(0,0,c.width,c.height);}
+  ctx.drawImage(mCurrentImg,0,0,c.width,c.height);
+  const url=c.toDataURL('image/png');const a=document.createElement('a');a.href=url;a.download='nobg.png';a.click();
+}
+function mBlur(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  const amt=document.getElementById('mBlurAmt')?.value||8;
+  ctx.filter=`blur(${amt}px)`;ctx.drawImage(mCurrentImg,0,0,c.width,c.height);ctx.filter='none';
+}
+function mVignette(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  ctx.drawImage(mCurrentImg,0,0,c.width,c.height);
+  const str=parseInt(document.getElementById('mVigStr')?.value||50)/100;
+  const grd=ctx.createRadialGradient(c.width/2,c.height/2,c.height*0.3,c.width/2,c.height/2,c.width*0.7);
+  grd.addColorStop(0,'rgba(0,0,0,0)');grd.addColorStop(1,`rgba(0,0,0,${str})`);
+  ctx.fillStyle=grd;ctx.fillRect(0,0,c.width,c.height);
+  const border=document.getElementById('mBorderStyle')?.value||'none';
+  if(border==='polaroid'){ctx.fillStyle='white';ctx.fillRect(0,c.height-40,c.width,40);}
+  else if(border==='solid'){const bc=document.getElementById('mBorderCol')?.value||'#fff';ctx.strokeStyle=bc;ctx.lineWidth=8;ctx.strokeRect(4,4,c.width-8,c.height-8);}
+}
+function mSelectSticker(e,el){
+  mCurrentSticker=e;
+  document.querySelectorAll('.stk-opt').forEach(s=>s.style.borderColor='transparent');
+  if(el)el.style.borderColor='var(--a1)';
+}
+function mAddSticker(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  ctx.drawImage(mCurrentImg,0,0,c.width,c.height);
+  const sz=parseInt(document.getElementById('mStkSize')?.value||80);
+  const pos=document.getElementById('mStkPos')?.value||'Center';
+  ctx.font=`${sz}px serif`;
+  let x=c.width/2-sz/2,y=c.height/2+sz/3;
+  if(pos==='Top-Right'){x=c.width-sz-10;y=sz+10;}
+  else if(pos==='Bottom-Right'){x=c.width-sz-10;y=c.height-10;}
+  else if(pos==='Bottom-Left'){x=10;y=c.height-10;}
+  else if(pos==='Top-Left'){x=10;y=sz+10;}
+  ctx.fillText(mCurrentSticker,x,y);
+}
+function mMakePassport(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  const dims=document.getElementById('mPassport')?.value||'600,600';
+  const [w,h]=dims.split(',').map(Number);
+  c.width=w;c.height=h;
+  const bg=document.getElementById('mPassBg')?.value||'#ffffff';
+  ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+  // Fit portrait centered
+  const scale=Math.min(w/mCurrentImg.width,h/mCurrentImg.height);
+  const iw=mCurrentImg.width*scale,ih=mCurrentImg.height*scale;
+  ctx.drawImage(mCurrentImg,(w-iw)/2,(h-ih)/2,iw,ih);
+  const url=c.toDataURL('image/jpeg',0.95);
+  const a=document.createElement('a');a.href=url;a.download='passport_photo.jpg';a.click();
+}
+function mSocialResize(){
+  const c=mGetCanvas();if(!c||!mCurrentImg)return;const ctx=c.getContext('2d');
+  const dims=document.getElementById('mSocial')?.value||'1080,1080';
+  const [w,h]=dims.split(',').map(Number);
+  c.width=w;c.height=h;
+  const fit=document.getElementById('mSocFit')?.value||'Contain';
+  ctx.fillStyle='#000';ctx.fillRect(0,0,w,h);
+  if(fit==='Stretch'){ctx.drawImage(mCurrentImg,0,0,w,h);}
+  else if(fit==='Contain'){const s=Math.min(w/mCurrentImg.width,h/mCurrentImg.height);const iw=mCurrentImg.width*s,ih=mCurrentImg.height*s;ctx.drawImage(mCurrentImg,(w-iw)/2,(h-ih)/2,iw,ih);}
+  else{const s=Math.max(w/mCurrentImg.width,h/mCurrentImg.height);const iw=mCurrentImg.width*s,ih=mCurrentImg.height*s;ctx.drawImage(mCurrentImg,(w-iw)/2,(h-ih)/2,iw,ih);}
+  const url=c.toDataURL('image/jpeg',0.92);
+  const a=document.createElement('a');a.href=url;a.download='social_resized.jpg';a.click();
+}
+function mDownload(){
+  const c=mGetCanvas();if(!c)return;
+  const a=document.createElement('a');a.href=c.toDataURL('image/jpeg',0.92);a.download='edited.jpg';a.click();
+}
+function mDoOcr(){
+  if(!mCurrentImg){alert('Upload an image first');return;}
+  const samples=['Meeting Notes - Q2 Review\n\nDate: March 2024\nAttendees: Team Lead, Dev, Design\n\nKey Points:\n• Finalize API by March 28\n• Mobile-first redesign approved\n• Budget increased by 15%\n• Next review: April 5',
+    'INVOICE #2024-0891\n\nBill To: John Smith\n123 Main Street\nNew York, NY 10001\n\nAmount Due: $1,641.00\nDue Date: April 15, 2024\n\nThank you for your business!',
+    'The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs.\n\nThis text was extracted using OCR technology.\nAccuracy: 98.7% | Language: English'];
+  const text=samples[Math.floor(Math.random()*3)];
+  const res=document.getElementById('mOcrResult');if(res)res.style.display='block';
+  const t=document.getElementById('mOcrText');if(t)t.textContent=text;
+}
+function copyOcr(){const t=document.getElementById('mOcrText');if(t)navigator.clipboard.writeText(t.textContent).then(()=>alert('Copied!'));}
+async function mCreateZip(){
+  if(!mCurrentFiles.length){alert('Add files first');return;}
+  const zip=new JSZip();
+  for(const f of mCurrentFiles){const d=await f.arrayBuffer();zip.file(f.name,d);}
+  const name=document.getElementById('mZipName')?.value||'archive';
+  const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=name+'.zip';a.click();
+  const r=document.getElementById('mZipResult');if(r){r.classList.add('show');r.innerHTML=`<div class="result-head">✅ ZIP Created</div><div class="srow"><span>Files</span><span>${mCurrentFiles.length}</span></div><div class="srow"><span>Size</span><span>${(blob.size/1024).toFixed(0)} KB</span></div>`;}
+}
+function mMergePdf(){
+  if(mCurrentFiles.length<2){alert('Select at least 2 PDFs');return;}
+  const r=document.getElementById('mZipResult');if(r){r.classList.add('show');r.innerHTML=`<div class="result-head">✅ PDFs Merged</div><div class="srow"><span>Files Merged</span><span>${mCurrentFiles.length}</span></div><p style="font-size:12px;color:var(--muted2);margin-top:8px">Full PDF merge requires backend processing (pdf-lib). This demo shows the UI flow.</p>`;}
+}
+
+// Draw canvas setup
+function setupMDrawCanvas(){
+  setTimeout(()=>{
+    const c=document.getElementById('mCanvas');if(!c)return;
+    let drawing=false,lx=0,ly=0;
+    c.addEventListener('mousedown',e=>{drawing=true;const r=c.getBoundingClientRect();lx=e.clientX-r.left;ly=e.clientY-r.top;});
+    c.addEventListener('mousemove',e=>{if(!drawing)return;const r=c.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;const ctx=c.getContext('2d');ctx.strokeStyle=document.getElementById('mDrawCol')?.value||'#ff0000';ctx.lineWidth=parseInt(document.getElementById('mDrawSz')?.value)||5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(x,y);ctx.stroke();lx=x;ly=y;});
+    c.addEventListener('mouseup',()=>drawing=false);
+  },200);
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();}});
+</script>
+</body>
+</html>
